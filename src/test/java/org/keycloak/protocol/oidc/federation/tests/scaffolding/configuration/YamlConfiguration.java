@@ -11,7 +11,7 @@ public class YamlConfiguration {
 
     private static final String CONFIG_FILENAME = "application.yml";
     
-    static Configuration config = new Configuration();
+    static Configuration config;
     
     static {
         ObjectMapper om = new ObjectMapper(new YAMLFactory());

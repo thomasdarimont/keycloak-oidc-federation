@@ -1,184 +1,225 @@
 package org.keycloak.protocol.oidc.federation.common.beans;
 
-public class RPMetadataPolicy {
-    
-    private PolicyList<String> client_registration_types;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    private Policy<String> organization_name;
+public class RPMetadataPolicy {
+
+    @JsonProperty("client_registration_types")
+    private PolicyList<String> clientRegistrationTypes;
+
+    @JsonProperty("organization_name")
+    private Policy<String> organizationName;
 
     // OIDC Dynamic client registration properties
 
-    private PolicyList<String> redirect_uris;
+    @JsonProperty("redirect_uris")
+    private PolicyList<String> redirectUris;
 
-    private Policy<String> token_endpoint_auth_method;
+    @JsonProperty("token_endpoint_auth_method")
+    private Policy<String> tokenEndpointAuthMethod;
 
-    private Policy<String> token_endpoint_auth_signing_alg;
+    @JsonProperty("token_endpoint_auth_signing_alg")
+    private Policy<String> tokenEndpointAuthSigningAlg;
 
-    private PolicyList<String> grant_types;
+    @JsonProperty("grant_types")
+    private PolicyList<String> grantTypes;
 
-    private PolicyList<String> response_types;
+    @JsonProperty("response_types")
+    private PolicyList<String> responseTypes;
 
-    private Policy<String> application_type;
+    @JsonProperty("application_type")
+    private Policy<String> applicationType;
 
-    private Policy<String> client_name;
+    @JsonProperty("client_name")
+    private Policy<String> clientName;
 
-    private Policy<String> client_uri;
+    @JsonProperty("client_uri")
+    private Policy<String> clientUri;
 
-    private Policy<String> logo_uri;
+    @JsonProperty("logo_uri")
+    private Policy<String> logoUri;
 
+    @JsonProperty("scope")
     private Policy<String> scope;
 
+    @JsonProperty("contacts")
     private PolicyList<String> contacts;
 
-    private Policy<String> tos_uri;
+    @JsonProperty("tos_uri")
+    private Policy<String> tosUri;
 
-    private Policy<String> policy_uri;
+    @JsonProperty("policy_uri")
+    private Policy<String> policyUri;
 
-    private Policy<String> jwks_uri;
+    @JsonProperty("jwks_uri")
+    private Policy<String> jwksUri;
 
-    private Policy<String> sector_identifier_uri;
+    @JsonProperty("sector_identifier_uri")
+    private Policy<String> sectorIdentifierUri;
 
-    private Policy<String> subject_type;
+    @JsonProperty("subject_type")
+    private Policy<String> subjectType;
 
-    private Policy<String> id_token_signed_response_alg;
+    @JsonProperty("id_token_signed_response_alg")
+    private Policy<String> idTokenSignedResponseAlg;
 
-    private Policy<String> id_token_encrypted_response_alg;
+    @JsonProperty("id_token_encrypted_response_alg")
+    private Policy<String> idTokenEncryptedResponseAlg;
 
-    private Policy<String> id_token_encrypted_response_enc;
+    @JsonProperty("id_token_encrypted_response_enc")
+    private Policy<String> idTokenEncryptedResponseEnc;
 
-    private Policy<String> userinfo_signed_response_alg;
+    @JsonProperty("userinfo_signed_response_alg")
+    private Policy<String> userinfoSignedResponseAlg;
 
-    private Policy<String> userinfo_encrypted_response_alg;
+    @JsonProperty("userinfo_encrypted_response_alg")
+    private Policy<String> userinfoEncryptedResponseAlg;
 
-    private Policy<String> userinfo_encrypted_response_enc;
+    @JsonProperty("userinfo_encrypted_response_enc")
+    private Policy<String> userinfoEncryptedResponseEnc;
 
-    private Policy<String> request_object_signing_alg;
+    @JsonProperty("request_object_signing_alg")
+    private Policy<String> requestObjectSigningAlg;
 
-    private Policy<String> request_object_encryption_alg;
+    @JsonProperty("request_object_encryption_alg")
+    private Policy<String> requestObjectEncryptionAlg;
 
-    private Policy<String> request_object_encryption_enc;
+    @JsonProperty("request_object_encryption_enc")
+    private Policy<String> requestObjectEncryptionEnc;
 
-    private Policy<Integer> default_max_age;
+    @JsonProperty("default_max_age")
+    private Policy<Integer> defaultMaxAge;
 
-    private Policy<Boolean> require_auth_time;
+    @JsonProperty("require_auth_time")
+    private Policy<Boolean> requireAuthTime;
 
-    private PolicyList<String> default_acr_values;
+    @JsonProperty("default_acr_values")
+    private PolicyList<String> defaultAcrValues;
 
-    private Policy<String> initiate_login_uri;
+    @JsonProperty("initiate_login_uri")
+    private Policy<String> initiateLoginUri;
 
-    private PolicyList<String> request_uris;
+    @JsonProperty("request_uris")
+    private PolicyList<String> requestUris;
 
     // KEYCLOAK-6771 Certificate Bound Token
     // https://tools.ietf.org/html/draft-ietf-oauth-mtls-08#section-6.5
-    private Policy<Boolean> tls_client_certificate_bound_access_tokens;
+    @JsonProperty("tls_client_certificate_bound_access_tokens")
+    private Policy<Boolean> tlsClientCertificateBoundAccessTokens;
 
-    private Policy<String> tls_client_auth_subject_dn;
+    @JsonProperty("tls_client_auth_subject_dn")
+    private Policy<String> tlsClientAuthSubjectDn;
 
     // OIDC Session Management
-    private PolicyList<String> post_logout_redirect_uris;
+    @JsonProperty("post_logout_redirect_uris")
+    private PolicyList<String> postLogoutRedirectUris;
 
     // Not sure from which specs this comes
-    private Policy<String> software_id;
+    @JsonProperty("software_id")
+    private Policy<String> softwareId;
 
-    private Policy<String> software_version;
+    @JsonProperty("software_version")
+    private Policy<String> softwareVersion;
 
     // OIDC Dynamic Client Registration Response
-    private Policy<Integer> client_id_issued_at;
+    @JsonProperty("client_id_issued_at")
+    private Policy<Integer> clientIdIssuedAt;
 
-    private Policy<Integer> client_secret_expires_at;
+    @JsonProperty("client_secret_expires_at")
+    private Policy<Integer> clientSecretExpiresAt;
 
-    private Policy<String> registration_client_uri;
+    @JsonProperty("registration_client_uri")
+    private Policy<String> registrationClientUri;
 
-    private Policy<String> registration_access_token;
-    
-   
+    @JsonProperty("registration_access_token")
+    private Policy<String> registrationAccessToken;
 
-    public PolicyList<String> getClient_registration_types() {
-        return client_registration_types;
+    public PolicyList<String> getClientRegistrationTypes() {
+        return clientRegistrationTypes;
     }
 
-    public void setClient_registration_types(PolicyList<String> client_registration_types) {
-        this.client_registration_types = client_registration_types;
+    public void setClientRegistrationTypes(PolicyList<String> clientRegistrationTypes) {
+        this.clientRegistrationTypes = clientRegistrationTypes;
     }
 
-    public Policy<String> getOrganization_name() {
-        return organization_name;
+    public Policy<String> getOrganizationName() {
+        return organizationName;
     }
 
-    public void setOrganization_name(Policy<String> organization_name) {
-        this.organization_name = organization_name;
+    public void setOrganizationName(Policy<String> organizationName) {
+        this.organizationName = organizationName;
     }
 
-    public PolicyList<String> getRedirect_uris() {
-        return redirect_uris;
+    public PolicyList<String> getRedirectUris() {
+        return redirectUris;
     }
 
-    public void setRedirect_uris(PolicyList<String> redirect_uris) {
-        this.redirect_uris = redirect_uris;
+    public void setRedirectUris(PolicyList<String> redirectUris) {
+        this.redirectUris = redirectUris;
     }
 
-    public Policy<String> getToken_endpoint_auth_method() {
-        return token_endpoint_auth_method;
+    public Policy<String> getTokenEndpointAuthMethod() {
+        return tokenEndpointAuthMethod;
     }
 
-    public void setToken_endpoint_auth_method(Policy<String> token_endpoint_auth_method) {
-        this.token_endpoint_auth_method = token_endpoint_auth_method;
+    public void setTokenEndpointAuthMethod(Policy<String> tokenEndpointAuthMethod) {
+        this.tokenEndpointAuthMethod = tokenEndpointAuthMethod;
     }
 
-    public Policy<String> getToken_endpoint_auth_signing_alg() {
-        return token_endpoint_auth_signing_alg;
+    public Policy<String> getTokenEndpointAuthSigningAlg() {
+        return tokenEndpointAuthSigningAlg;
     }
 
-    public void setToken_endpoint_auth_signing_alg(Policy<String> token_endpoint_auth_signing_alg) {
-        this.token_endpoint_auth_signing_alg = token_endpoint_auth_signing_alg;
+    public void setTokenEndpointAuthSigningAlg(Policy<String> tokenEndpointAuthSigningAlg) {
+        this.tokenEndpointAuthSigningAlg = tokenEndpointAuthSigningAlg;
     }
 
-    public PolicyList<String> getGrant_types() {
-        return grant_types;
+    public PolicyList<String> getGrantTypes() {
+        return grantTypes;
     }
 
-    public void setGrant_types(PolicyList<String> grant_types) {
-        this.grant_types = grant_types;
+    public void setGrantTypes(PolicyList<String> grantTypes) {
+        this.grantTypes = grantTypes;
     }
 
-    public PolicyList<String> getResponse_types() {
-        return response_types;
+    public PolicyList<String> getResponseTypes() {
+        return responseTypes;
     }
 
-    public void setResponse_types(PolicyList<String> response_types) {
-        this.response_types = response_types;
+    public void setResponseTypes(PolicyList<String> responseTypes) {
+        this.responseTypes = responseTypes;
     }
 
-    public Policy<String> getApplication_type() {
-        return application_type;
+    public Policy<String> getApplicationType() {
+        return applicationType;
     }
 
-    public void setApplication_type(Policy<String> application_type) {
-        this.application_type = application_type;
+    public void setApplicationType(Policy<String> applicationType) {
+        this.applicationType = applicationType;
     }
 
-    public Policy<String> getClient_name() {
-        return client_name;
+    public Policy<String> getClientName() {
+        return clientName;
     }
 
-    public void setClient_name(Policy<String> client_name) {
-        this.client_name = client_name;
+    public void setClientName(Policy<String> clientName) {
+        this.clientName = clientName;
     }
 
-    public Policy<String> getClient_uri() {
-        return client_uri;
+    public Policy<String> getClientUri() {
+        return clientUri;
     }
 
-    public void setClient_uri(Policy<String> client_uri) {
-        this.client_uri = client_uri;
+    public void setClientUri(Policy<String> clientUri) {
+        this.clientUri = clientUri;
     }
 
-    public Policy<String> getLogo_uri() {
-        return logo_uri;
+    public Policy<String> getLogoUri() {
+        return logoUri;
     }
 
-    public void setLogo_uri(Policy<String> logo_uri) {
-        this.logo_uri = logo_uri;
+    public void setLogoUri(Policy<String> logoUri) {
+        this.logoUri = logoUri;
     }
 
     public Policy<String> getScope() {
@@ -197,228 +238,228 @@ public class RPMetadataPolicy {
         this.contacts = contacts;
     }
 
-    public Policy<String> getTos_uri() {
-        return tos_uri;
+    public Policy<String> getTosUri() {
+        return tosUri;
     }
 
-    public void setTos_uri(Policy<String> tos_uri) {
-        this.tos_uri = tos_uri;
+    public void setTosUri(Policy<String> tosUri) {
+        this.tosUri = tosUri;
     }
 
-    public Policy<String> getPolicy_uri() {
-        return policy_uri;
+    public Policy<String> getPolicyUri() {
+        return policyUri;
     }
 
-    public void setPolicy_uri(Policy<String> policy_uri) {
-        this.policy_uri = policy_uri;
+    public void setPolicyUri(Policy<String> policyUri) {
+        this.policyUri = policyUri;
     }
 
-    public Policy<String> getJwks_uri() {
-        return jwks_uri;
+    public Policy<String> getJwksUri() {
+        return jwksUri;
     }
 
-    public void setJwks_uri(Policy<String> jwks_uri) {
-        this.jwks_uri = jwks_uri;
+    public void setJwksUri(Policy<String> jwksUri) {
+        this.jwksUri = jwksUri;
     }
 
-    public Policy<String> getSector_identifier_uri() {
-        return sector_identifier_uri;
+    public Policy<String> getSectorIdentifierUri() {
+        return sectorIdentifierUri;
     }
 
-    public void setSector_identifier_uri(Policy<String> sector_identifier_uri) {
-        this.sector_identifier_uri = sector_identifier_uri;
+    public void setSectorIdentifierUri(Policy<String> sectorIdentifierUri) {
+        this.sectorIdentifierUri = sectorIdentifierUri;
     }
 
-    public Policy<String> getSubject_type() {
-        return subject_type;
+    public Policy<String> getSubjectType() {
+        return subjectType;
     }
 
-    public void setSubject_type(Policy<String> subject_type) {
-        this.subject_type = subject_type;
+    public void setSubjectType(Policy<String> subjectType) {
+        this.subjectType = subjectType;
     }
 
-    public Policy<String> getId_token_signed_response_alg() {
-        return id_token_signed_response_alg;
+    public Policy<String> getIdTokenSignedResponseAlg() {
+        return idTokenSignedResponseAlg;
     }
 
-    public void setId_token_signed_response_alg(Policy<String> id_token_signed_response_alg) {
-        this.id_token_signed_response_alg = id_token_signed_response_alg;
+    public void setIdTokenSignedResponseAlg(Policy<String> idTokenSignedResponseAlg) {
+        this.idTokenSignedResponseAlg = idTokenSignedResponseAlg;
     }
 
-    public Policy<String> getId_token_encrypted_response_alg() {
-        return id_token_encrypted_response_alg;
+    public Policy<String> getIdTokenEncryptedResponseAlg() {
+        return idTokenEncryptedResponseAlg;
     }
 
-    public void setId_token_encrypted_response_alg(Policy<String> id_token_encrypted_response_alg) {
-        this.id_token_encrypted_response_alg = id_token_encrypted_response_alg;
+    public void setIdTokenEncryptedResponseAlg(Policy<String> idTokenEncryptedResponseAlg) {
+        this.idTokenEncryptedResponseAlg = idTokenEncryptedResponseAlg;
     }
 
-    public Policy<String> getId_token_encrypted_response_enc() {
-        return id_token_encrypted_response_enc;
+    public Policy<String> getIdTokenEncryptedResponseEnc() {
+        return idTokenEncryptedResponseEnc;
     }
 
-    public void setId_token_encrypted_response_enc(Policy<String> id_token_encrypted_response_enc) {
-        this.id_token_encrypted_response_enc = id_token_encrypted_response_enc;
+    public void setIdTokenEncryptedResponseEnc(Policy<String> idTokenEncryptedResponseEnc) {
+        this.idTokenEncryptedResponseEnc = idTokenEncryptedResponseEnc;
     }
 
-    public Policy<String> getUserinfo_signed_response_alg() {
-        return userinfo_signed_response_alg;
+    public Policy<String> getUserinfoSignedResponseAlg() {
+        return userinfoSignedResponseAlg;
     }
 
-    public void setUserinfo_signed_response_alg(Policy<String> userinfo_signed_response_alg) {
-        this.userinfo_signed_response_alg = userinfo_signed_response_alg;
+    public void setUserinfoSignedResponseAlg(Policy<String> userinfoSignedResponseAlg) {
+        this.userinfoSignedResponseAlg = userinfoSignedResponseAlg;
     }
 
-    public Policy<String> getUserinfo_encrypted_response_alg() {
-        return userinfo_encrypted_response_alg;
+    public Policy<String> getUserinfoEncryptedResponseAlg() {
+        return userinfoEncryptedResponseAlg;
     }
 
-    public void setUserinfo_encrypted_response_alg(Policy<String> userinfo_encrypted_response_alg) {
-        this.userinfo_encrypted_response_alg = userinfo_encrypted_response_alg;
+    public void setUserinfoEncryptedResponseAlg(Policy<String> userinfoEncryptedResponseAlg) {
+        this.userinfoEncryptedResponseAlg = userinfoEncryptedResponseAlg;
     }
 
-    public Policy<String> getUserinfo_encrypted_response_enc() {
-        return userinfo_encrypted_response_enc;
+    public Policy<String> getUserinfoEncryptedResponseEnc() {
+        return userinfoEncryptedResponseEnc;
     }
 
-    public void setUserinfo_encrypted_response_enc(Policy<String> userinfo_encrypted_response_enc) {
-        this.userinfo_encrypted_response_enc = userinfo_encrypted_response_enc;
+    public void setUserinfoEncryptedResponseEnc(Policy<String> userinfoEncryptedResponseEnc) {
+        this.userinfoEncryptedResponseEnc = userinfoEncryptedResponseEnc;
     }
 
-    public Policy<String> getRequest_object_signing_alg() {
-        return request_object_signing_alg;
+    public Policy<String> getRequestObjectSigningAlg() {
+        return requestObjectSigningAlg;
     }
 
-    public void setRequest_object_signing_alg(Policy<String> request_object_signing_alg) {
-        this.request_object_signing_alg = request_object_signing_alg;
+    public void setRequestObjectSigningAlg(Policy<String> requestObjectSigningAlg) {
+        this.requestObjectSigningAlg = requestObjectSigningAlg;
     }
 
-    public Policy<String> getRequest_object_encryption_alg() {
-        return request_object_encryption_alg;
+    public Policy<String> getRequestObjectEncryptionAlg() {
+        return requestObjectEncryptionAlg;
     }
 
-    public void setRequest_object_encryption_alg(Policy<String> request_object_encryption_alg) {
-        this.request_object_encryption_alg = request_object_encryption_alg;
+    public void setRequestObjectEncryptionAlg(Policy<String> requestObjectEncryptionAlg) {
+        this.requestObjectEncryptionAlg = requestObjectEncryptionAlg;
     }
 
-    public Policy<String> getRequest_object_encryption_enc() {
-        return request_object_encryption_enc;
+    public Policy<String> getRequestObjectEncryptionEnc() {
+        return requestObjectEncryptionEnc;
     }
 
-    public void setRequest_object_encryption_enc(Policy<String> request_object_encryption_enc) {
-        this.request_object_encryption_enc = request_object_encryption_enc;
+    public void setRequestObjectEncryptionEnc(Policy<String> requestObjectEncryptionEnc) {
+        this.requestObjectEncryptionEnc = requestObjectEncryptionEnc;
     }
 
-    public Policy<Integer> getDefault_max_age() {
-        return default_max_age;
+    public Policy<Integer> getDefaultMaxAge() {
+        return defaultMaxAge;
     }
 
-    public void setDefault_max_age(Policy<Integer> default_max_age) {
-        this.default_max_age = default_max_age;
+    public void setDefaultMaxAge(Policy<Integer> defaultMaxAge) {
+        this.defaultMaxAge = defaultMaxAge;
     }
 
-    public Policy<Boolean> getRequire_auth_time() {
-        return require_auth_time;
+    public Policy<Boolean> getRequireAuthTime() {
+        return requireAuthTime;
     }
 
-    public void setRequire_auth_time(Policy<Boolean> require_auth_time) {
-        this.require_auth_time = require_auth_time;
+    public void setRequireAuthTime(Policy<Boolean> requireAuthTime) {
+        this.requireAuthTime = requireAuthTime;
     }
 
-    public PolicyList<String> getDefault_acr_values() {
-        return default_acr_values;
+    public PolicyList<String> getDefaultAcrValues() {
+        return defaultAcrValues;
     }
 
-    public void setDefault_acr_values(PolicyList<String> default_acr_values) {
-        this.default_acr_values = default_acr_values;
+    public void setDefaultAcrValues(PolicyList<String> defaultAcrValues) {
+        this.defaultAcrValues = defaultAcrValues;
     }
 
-    public Policy<String> getInitiate_login_uri() {
-        return initiate_login_uri;
+    public Policy<String> getInitiateLoginUri() {
+        return initiateLoginUri;
     }
 
-    public void setInitiate_login_uri(Policy<String> initiate_login_uri) {
-        this.initiate_login_uri = initiate_login_uri;
+    public void setInitiateLoginUri(Policy<String> initiateLoginUri) {
+        this.initiateLoginUri = initiateLoginUri;
     }
 
-    public PolicyList<String> getRequest_uris() {
-        return request_uris;
+    public PolicyList<String> getRequestUris() {
+        return requestUris;
     }
 
-    public void setRequest_uris(PolicyList<String> request_uris) {
-        this.request_uris = request_uris;
+    public void setRequestUris(PolicyList<String> requestUris) {
+        this.requestUris = requestUris;
     }
 
-    public Policy<Boolean> getTls_client_certificate_bound_access_tokens() {
-        return tls_client_certificate_bound_access_tokens;
+    public Policy<Boolean> getTlsClientCertificateBoundAccessTokens() {
+        return tlsClientCertificateBoundAccessTokens;
     }
 
-    public void setTls_client_certificate_bound_access_tokens(Policy<Boolean> tls_client_certificate_bound_access_tokens) {
-        this.tls_client_certificate_bound_access_tokens = tls_client_certificate_bound_access_tokens;
+    public void setTlsClientCertificateBoundAccessTokens(Policy<Boolean> tlsClientCertificateBoundAccessTokens) {
+        this.tlsClientCertificateBoundAccessTokens = tlsClientCertificateBoundAccessTokens;
     }
 
-    public Policy<String> getTls_client_auth_subject_dn() {
-        return tls_client_auth_subject_dn;
+    public Policy<String> getTlsClientAuthSubjectDn() {
+        return tlsClientAuthSubjectDn;
     }
 
-    public void setTls_client_auth_subject_dn(Policy<String> tls_client_auth_subject_dn) {
-        this.tls_client_auth_subject_dn = tls_client_auth_subject_dn;
+    public void setTlsClientAuthSubjectDn(Policy<String> tlsClientAuthSubjectDn) {
+        this.tlsClientAuthSubjectDn = tlsClientAuthSubjectDn;
     }
 
-    public PolicyList<String> getPost_logout_redirect_uris() {
-        return post_logout_redirect_uris;
+    public PolicyList<String> getPostLogoutRedirectUris() {
+        return postLogoutRedirectUris;
     }
 
-    public void setPost_logout_redirect_uris(PolicyList<String> post_logout_redirect_uris) {
-        this.post_logout_redirect_uris = post_logout_redirect_uris;
+    public void setPostLogoutRedirectUris(PolicyList<String> postLogoutRedirectUris) {
+        this.postLogoutRedirectUris = postLogoutRedirectUris;
     }
 
-    public Policy<String> getSoftware_id() {
-        return software_id;
+    public Policy<String> getSoftwareId() {
+        return softwareId;
     }
 
-    public void setSoftware_id(Policy<String> software_id) {
-        this.software_id = software_id;
+    public void setSoftwareId(Policy<String> softwareId) {
+        this.softwareId = softwareId;
     }
 
-    public Policy<String> getSoftware_version() {
-        return software_version;
+    public Policy<String> getSoftwareVersion() {
+        return softwareVersion;
     }
 
-    public void setSoftware_version(Policy<String> software_version) {
-        this.software_version = software_version;
+    public void setSoftwareVersion(Policy<String> softwareVersion) {
+        this.softwareVersion = softwareVersion;
     }
 
-    public Policy<Integer> getClient_id_issued_at() {
-        return client_id_issued_at;
+    public Policy<Integer> getClientIdIssuedAt() {
+        return clientIdIssuedAt;
     }
 
-    public void setClient_id_issued_at(Policy<Integer> client_id_issued_at) {
-        this.client_id_issued_at = client_id_issued_at;
+    public void setClientIdIssuedAt(Policy<Integer> clientIdIssuedAt) {
+        this.clientIdIssuedAt = clientIdIssuedAt;
     }
 
-    public Policy<Integer> getClient_secret_expires_at() {
-        return client_secret_expires_at;
+    public Policy<Integer> getClientSecretExpiresAt() {
+        return clientSecretExpiresAt;
     }
 
-    public void setClient_secret_expires_at(Policy<Integer> client_secret_expires_at) {
-        this.client_secret_expires_at = client_secret_expires_at;
+    public void setClientSecretExpiresAt(Policy<Integer> clientSecretExpiresAt) {
+        this.clientSecretExpiresAt = clientSecretExpiresAt;
     }
 
-    public Policy<String> getRegistration_client_uri() {
-        return registration_client_uri;
+    public Policy<String> getRegistrationClientUri() {
+        return registrationClientUri;
     }
 
-    public void setRegistration_client_uri(Policy<String> registration_client_uri) {
-        this.registration_client_uri = registration_client_uri;
+    public void setRegistrationClientUri(Policy<String> registrationClientUri) {
+        this.registrationClientUri = registrationClientUri;
     }
 
-    public Policy<String> getRegistration_access_token() {
-        return registration_access_token;
+    public Policy<String> getRegistrationAccessToken() {
+        return registrationAccessToken;
     }
 
-    public void setRegistration_access_token(Policy<String> registration_access_token) {
-        this.registration_access_token = registration_access_token;
+    public void setRegistrationAccessToken(Policy<String> registrationAccessToken) {
+        this.registrationAccessToken = registrationAccessToken;
     }
 
 }

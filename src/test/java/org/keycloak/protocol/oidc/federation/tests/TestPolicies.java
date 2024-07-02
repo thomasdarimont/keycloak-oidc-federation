@@ -34,31 +34,31 @@ public class TestPolicies {
         URL policyInter = getClass().getClassLoader().getResource("oidc/policyInter.json");
         byte [] contentpolicyInter  = Files.readAllBytes(Paths.get(policyInter.toURI()));
         RPMetadataPolicy inferiorPolicy = JsonSerialization.readValue(contentpolicyInter, RPMetadataPolicy.class);
-        superiorPolicy = MetadataPolicyUtils.combineClientPOlicies(superiorPolicy, inferiorPolicy);
+        superiorPolicy = MetadataPolicyUtils.combineClientPolicies(superiorPolicy, inferiorPolicy);
         statement = MetadataPolicyUtils.applyPoliciesToRPStatement(statement, superiorPolicy);
 
         //check statement for proper rp policy data
         Assert.assertNotNull(superiorPolicy.getScope());
-        Assert.assertNotNull(superiorPolicy.getScope().getSubset_of());
-        assertNames(superiorPolicy.getScope().getSubset_of(), "openid","eduperson");
-        Assert.assertNotNull(superiorPolicy.getScope().getSuperset_of());
-        assertNames(superiorPolicy.getScope().getSuperset_of(), "openid");
+        Assert.assertNotNull(superiorPolicy.getScope().getSubsetOf());
+        assertNames(superiorPolicy.getScope().getSubsetOf(), "openid","eduperson");
+        Assert.assertNotNull(superiorPolicy.getScope().getSupersetOf());
+        assertNames(superiorPolicy.getScope().getSupersetOf(), "openid");
         assertEquals("openid",superiorPolicy.getScope().getDefaultValue());
-        Assert.assertNotNull(superiorPolicy.getApplication_type());
-        assertEquals("web",superiorPolicy.getApplication_type().getValue());
+        Assert.assertNotNull(superiorPolicy.getApplicationType());
+        assertEquals("web",superiorPolicy.getApplicationType().getValue());
         Assert.assertNotNull(superiorPolicy.getContacts());
         Assert.assertNotNull(superiorPolicy.getContacts().getAdd());
         assertNames(superiorPolicy.getContacts().getAdd(), "helpdesk@org.example.org","helpdesk@federation.example.org");
-        Assert.assertNotNull(superiorPolicy.getId_token_signed_response_alg());
-        Assert.assertNotNull(superiorPolicy.getId_token_signed_response_alg().getOne_of());
-        assertNames(superiorPolicy.getId_token_signed_response_alg().getOne_of(), "ES384","ES256");
-        assertEquals("ES256",superiorPolicy.getId_token_signed_response_alg().getDefaultValue());
-        Assert.assertTrue(superiorPolicy.getId_token_signed_response_alg().getEssential());
+        Assert.assertNotNull(superiorPolicy.getIdTokenSignedResponseAlg());
+        Assert.assertNotNull(superiorPolicy.getIdTokenSignedResponseAlg().getOneOf());
+        assertNames(superiorPolicy.getIdTokenSignedResponseAlg().getOneOf(), "ES384","ES256");
+        assertEquals("ES256",superiorPolicy.getIdTokenSignedResponseAlg().getDefaultValue());
+        Assert.assertTrue(superiorPolicy.getIdTokenSignedResponseAlg().getEssential());
 
         //check statement for proper rp data
         Assert.assertNotNull(statement.getMetadata());
-        Assert.assertNotNull(statement.getMetadata().getRp());
-        RPMetadata rp =statement.getMetadata().getRp();
+        Assert.assertNotNull(statement.getMetadata().getRelyingPartyMetadata());
+        RPMetadata rp =statement.getMetadata().getRelyingPartyMetadata();
         Assert.assertNotNull(rp.getRedirectUris());
         assertEquals("client RedirectUris size", 1, rp.getRedirectUris().size());
         assertEquals("https://127.0.0.1:4000/authz_cb/local", rp.getRedirectUris().get(0));
@@ -81,14 +81,14 @@ public class TestPolicies {
         byte [] content = Files.readAllBytes(Paths.get(rpEntityStatement.toURI()));
         EntityStatement statement = JsonSerialization.readValue(content, EntityStatement.class);
         //add scope address for being invalid rp metadata
-        statement.getMetadata().getRp().setScope("address");
+        statement.getMetadata().getRelyingPartyMetadata().setScope("address");
         URL policyTA = getClass().getClassLoader().getResource("oidc/policyTrustAnchor.json");
         byte [] contentpolicyTA = Files.readAllBytes(Paths.get(policyTA.toURI()));
         RPMetadataPolicy superiorPolicy = JsonSerialization.readValue(contentpolicyTA, RPMetadataPolicy.class);
         URL policyInter = getClass().getClassLoader().getResource("oidc/policyInter.json");
         byte [] contentpolicyInter  = Files.readAllBytes(Paths.get(policyInter.toURI()));
         RPMetadataPolicy inferiorPolicy = JsonSerialization.readValue(contentpolicyInter, RPMetadataPolicy.class);
-        superiorPolicy = MetadataPolicyUtils.combineClientPOlicies(superiorPolicy, inferiorPolicy);
+        superiorPolicy = MetadataPolicyUtils.combineClientPolicies(superiorPolicy, inferiorPolicy);
 
         //check that rp metadata is invalid due to policies
         boolean exceptionThrown = false;

@@ -19,16 +19,17 @@ package org.keycloak.protocol.oidc.federation.op.spi;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriInfo;
 
 import org.keycloak.common.util.Time;
 import org.keycloak.models.KeycloakSession;
@@ -55,8 +56,8 @@ public class OIDCFedOPWellKnownProvider extends OIDCWellKnownProvider {
 
     public static final List<String> CLIENT_REGISTRATION_TYPES_SUPPORTED = Arrays.asList("automatic", "explicit");
 
-    private KeycloakSession session;
-    private OIDCFedConfigService configurationService;
+    private final KeycloakSession session;
+    private final OIDCFedConfigService configurationService;
 
     public OIDCFedOPWellKnownProvider(KeycloakSession session) {
         super(session);
@@ -93,33 +94,29 @@ public class OIDCFedOPWellKnownProvider extends OIDCWellKnownProvider {
                 .path(OIDCFederationResourceProvider.class, "getFederationOPService")
                 .path(FederationOPService.class, "getFederationRegistration").build(realm.getName()).toString());
         Map<String, List<String>> clientRegMap = new HashMap<>();
-        clientRegMap.put("ar", Arrays.asList("request_object"));
+        clientRegMap.put("ar", Collections.singletonList("request_object"));
         config.setClientRegistrationAuthnMethodsSupported(clientRegMap);
         config.setClientRegistrationTypesSupported(
             "both".equals(conf.getConfiguration().getRegistrationType()) ? CLIENT_REGISTRATION_TYPES_SUPPORTED
-                : Arrays.asList(conf.getConfiguration().getRegistrationType()));
+                : Collections.singletonList(conf.getConfiguration().getRegistrationType()));
 
 
         Metadata metadata = new Metadata();
-        metadata.setOp(config);
+        metadata.setOpenIdProviderMetadata(config);
 
         EntityStatement entityStatement = new EntityStatement();
         entityStatement.setMetadata(metadata);
-        entityStatement.setAuthorityHints(conf.getConfiguration().getAuthorityHints().stream().collect(Collectors.toList()));
+        entityStatement.setAuthorityHints(new ArrayList<>(conf.getConfiguration().getAuthorityHints()));
         entityStatement.setJwks(FedUtils.getKeySet(session));
         entityStatement.issuer(Urls.realmIssuer(frontendUriInfo.getBaseUri(), realm.getName()));
         entityStatement.subject(Urls.realmIssuer(frontendUriInfo.getBaseUri(), realm.getName()));
         entityStatement.issuedNow();
-        entityStatement.exp(Long.valueOf(Time.currentTime()) + Long.valueOf(conf.getConfiguration().getExpirationTime()));
+        entityStatement.exp((long) Time.currentTime() + Long.valueOf(conf.getConfiguration().getExpirationTime()));
 
         //sign and encode entity statement
         String encodedToken = session.tokens().encode(entityStatement);
 
         return encodedToken;
-    }
-
-    @Override
-    public void close() {
     }
 
     public static OPMetadata from(OIDCConfigurationRepresentation representation) throws IOException {

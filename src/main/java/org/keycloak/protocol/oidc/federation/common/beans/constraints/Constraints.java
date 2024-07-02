@@ -1,23 +1,29 @@
 package org.keycloak.protocol.oidc.federation.common.beans.constraints;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Constraints {
 
-    private NamingConstraints naming_constraints;
-    private Integer max_path_length;
-    
-    
-    public NamingConstraints getNaming_constraints() {
-        return naming_constraints;
+    @JsonProperty("naming_constraints")
+    private NamingConstraints namingConstraints;
+
+    @JsonProperty("max_path_length")
+    private Integer maxPathLength;
+
+    public NamingConstraints getNamingConstraints() {
+        return namingConstraints;
     }
-    public void setNaming_constraints(NamingConstraints naming_constraints) {
-        this.naming_constraints = naming_constraints;
+
+    public void setNamingConstraints(NamingConstraints namingConstraints) {
+        this.namingConstraints = namingConstraints;
     }
-    public Integer getMax_path_length() {
-        return max_path_length;
+
+    public Integer getMaxPathLength() {
+        return maxPathLength;
     }
-    public void setMax_path_length(Integer max_path_length) {
-        this.max_path_length = max_path_length;
+
+    public void setMaxPathLength(Integer maxPathLength) {
+        this.maxPathLength = maxPathLength;
     }
-    
-    
+
 }

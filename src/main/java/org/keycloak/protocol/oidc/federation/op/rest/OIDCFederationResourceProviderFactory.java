@@ -17,12 +17,14 @@
 
 package org.keycloak.protocol.oidc.federation.op.rest;
 
+import com.google.auto.service.AutoService;
 import org.keycloak.Config.Scope;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.services.resource.RealmResourceProviderFactory;
 
+@AutoService(RealmResourceProviderFactory.class)
 public class OIDCFederationResourceProviderFactory implements RealmResourceProviderFactory {
 
     public static final String ID = "oidc-federation";

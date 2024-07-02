@@ -1,60 +1,67 @@
 package org.keycloak.protocol.oidc.federation.common.beans;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.keycloak.protocol.oidc.federation.common.exceptions.MetadataPolicyCombinationException;
+import org.keycloak.protocol.oidc.federation.common.helpers.AddDeserializer;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.keycloak.protocol.oidc.federation.common.exceptions.MetadataPolicyCombinationException;
-import org.keycloak.protocol.oidc.federation.common.exceptions.MetadataPolicyException;
-import org.keycloak.protocol.oidc.federation.common.helpers.AddDeserializer;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 public abstract class AbstractPolicy<T> {
 
-    protected Set<T> subset_of;
-    protected Set<T> one_of;
-    protected Set<T> superset_of;
+    @JsonProperty("subset_of")
+    protected Set<T> subsetOf;
+
+    @JsonProperty("one_of")
+    protected Set<T> oneOf;
+
+    @JsonProperty("superset_of")
+    protected Set<T> supersetOf;
+
     @JsonDeserialize(using = AddDeserializer.class)
     protected Set<T> add;
+
     protected Boolean essential;
+
     protected Map<String, T> otherClaims = new HashMap<>();
 
     protected AbstractPolicy() {
 
     }
 
-    protected AbstractPolicy<T> combinePolicyCommon(AbstractPolicy<T> inferior)  throws MetadataPolicyCombinationException{
+    protected AbstractPolicy<T> combinePolicyCommon(AbstractPolicy<T> inferior) throws MetadataPolicyCombinationException {
 
         // combine subset_of
-        if (inferior.getSubset_of() != null && this.subset_of != null) {
-            this.subset_of = this.subset_of.stream().filter(inferior.getSubset_of()::contains).collect(Collectors.toSet());
-            if (this.subset_of.isEmpty()) {
-                this.subset_of = null;
+        if (inferior.getSubsetOf() != null && this.subsetOf != null) {
+            this.subsetOf = this.subsetOf.stream().filter(inferior.getSubsetOf()::contains).collect(Collectors.toSet());
+            if (this.subsetOf.isEmpty()) {
+                this.subsetOf = null;
             }
-        } else if (inferior.getSubset_of() != null) {
-            this.subset_of = inferior.getSubset_of();
+        } else if (inferior.getSubsetOf() != null) {
+            this.subsetOf = inferior.getSubsetOf();
         }
         // combine one_of
-        if (inferior.getOne_of() != null && this.one_of != null) {
-            this.one_of = this.one_of.stream().filter(inferior.getOne_of()::contains).collect(Collectors.toSet());
-            if (this.one_of.isEmpty()) {
-                this.one_of = null;
+        if (inferior.getOneOf() != null && this.oneOf != null) {
+            this.oneOf = this.oneOf.stream().filter(inferior.getOneOf()::contains).collect(Collectors.toSet());
+            if (this.oneOf.isEmpty()) {
+                this.oneOf = null;
             }
-        } else if (inferior.getOne_of() != null) {
-            this.one_of = inferior.getOne_of();
+        } else if (inferior.getOneOf() != null) {
+            this.oneOf = inferior.getOneOf();
         }
         // combine superset_of
-        if (inferior.getSuperset_of() != null && this.superset_of != null) {
-            this.superset_of = this.superset_of.stream().filter(inferior.getSuperset_of()::contains).collect(Collectors.toSet());
-            if (this.superset_of.isEmpty()) {
-                this.superset_of = null;
+        if (inferior.getSupersetOf() != null && this.supersetOf != null) {
+            this.supersetOf = this.supersetOf.stream().filter(inferior.getSupersetOf()::contains).collect(Collectors.toSet());
+            if (this.supersetOf.isEmpty()) {
+                this.supersetOf = null;
             }
-        } else if (inferior.getSuperset_of() != null) {
-            this.superset_of = inferior.getSuperset_of();
+        } else if (inferior.getSupersetOf() != null) {
+            this.supersetOf = inferior.getSupersetOf();
         }
         // combine add
         if (this.add == null) {
@@ -64,41 +71,37 @@ public abstract class AbstractPolicy<T> {
         }
         //combine essential
         if (this.essential != null || inferior.getEssential() != null) {
-            this.essential = this.essential == null || inferior.getEssential() == null || this.essential
-                || inferior.getEssential();
+            this.essential = this.essential == null || inferior.getEssential() == null || this.essential || inferior.getEssential();
         }
         return this;
     }
-    
+
     protected boolean isNotAcceptedCombination(Object defaultValue, Object value) {
-        return (this.add != null && (defaultValue != null || value != null || this.one_of != null
-            || this.subset_of != null || this.superset_of != null)) || (defaultValue != null && value != null)
-            || (this.one_of != null && (this.subset_of != null || this.superset_of != null))
-            || (this.subset_of != null && this.superset_of != null && !this.subset_of.containsAll(this.superset_of));
+        return (this.add != null && (defaultValue != null || value != null || this.oneOf != null || this.subsetOf != null || this.supersetOf != null)) || (defaultValue != null && value != null) || (this.oneOf != null && (this.subsetOf != null || this.supersetOf != null)) || (this.subsetOf != null && this.supersetOf != null && !this.subsetOf.containsAll(this.supersetOf));
     }
 
-    public Set<T> getSubset_of() {
-        return subset_of;
+    public Set<T> getSubsetOf() {
+        return subsetOf;
     }
 
-    public void setSubset_of(Set<T> subset_of) {
-        this.subset_of = subset_of;
+    public void setSubsetOf(Set<T> subsetOf) {
+        this.subsetOf = subsetOf;
     }
 
-    public Set<T> getOne_of() {
-        return one_of;
+    public Set<T> getOneOf() {
+        return oneOf;
     }
 
-    public void setOne_of(Set<T> one_of) {
-        this.one_of = one_of;
+    public void setOneOf(Set<T> oneOf) {
+        this.oneOf = oneOf;
     }
 
-    public Set<T> getSuperset_of() {
-        return superset_of;
+    public Set<T> getSupersetOf() {
+        return supersetOf;
     }
 
-    public void setSuperset_of(Set<T> superset_of) {
-        this.superset_of = superset_of;
+    public void setSupersetOf(Set<T> supersetOf) {
+        this.supersetOf = supersetOf;
     }
 
     public Set<T> getAdd() {

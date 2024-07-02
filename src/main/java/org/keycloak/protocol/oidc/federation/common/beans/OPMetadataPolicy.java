@@ -1,30 +1,30 @@
 package org.keycloak.protocol.oidc.federation.common.beans;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class OPMetadataPolicy {
-    
+
     @JsonProperty("federation_registration_endpoint")
     private Policy<String> federationRegistrationEndpoint;
-    
+
     @JsonProperty("pushed_authorization_request_endpoint")
     private Policy<String> pushedAuthorizationRequestEndpoint;
-    
+
     @JsonProperty("client_registration_types_supported")
     private PolicyList<String> clientRegistrationTypesSupported;
-    
+
     //needed?how?
 //    @JsonProperty("client_registration_authn_methods_supported")
 //    private Map<String,List<String>> clientRegistrationAuthnMethodsSupported;
 
     @JsonProperty("organization_name")
     private Policy<String> organizationName;
-    
+
     @JsonProperty("issuer")
     private Policy<String> issuer;
 
@@ -108,7 +108,7 @@ public class OPMetadataPolicy {
 
     @JsonProperty("tls_client_certificate_bound_access_tokens")
     private Policy<Boolean> tlsClientCertificateBoundAccessTokens;
-    
+
     protected Map<String, Object> otherClaims = new HashMap<String, Object>();
 
     public Policy<String> getFederationRegistrationEndpoint() {
@@ -366,7 +366,7 @@ public class OPMetadataPolicy {
     public void setTlsClientCertificateBoundAccessTokens(Policy<Boolean> tlsClientCertificateBoundAccessTokens) {
         this.tlsClientCertificateBoundAccessTokens = tlsClientCertificateBoundAccessTokens;
     }
-    
+
     @JsonAnyGetter
     public Map<String, Object> getOtherClaims() {
         return otherClaims;
@@ -376,6 +376,6 @@ public class OPMetadataPolicy {
     public void setOtherClaims(String name, Object value) {
         otherClaims.put(name, value);
     }
-    
+
 
 }

@@ -2,7 +2,7 @@ package org.keycloak.protocol.oidc.federation.tests.scaffolding.jaxrs;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.core.Application;
 
 import org.keycloak.protocol.oidc.federation.tests.scaffolding.intermediates.EntityStatementsREST;
 

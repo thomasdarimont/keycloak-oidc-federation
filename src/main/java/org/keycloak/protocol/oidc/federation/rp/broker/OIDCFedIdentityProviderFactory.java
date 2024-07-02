@@ -1,13 +1,15 @@
 package org.keycloak.protocol.oidc.federation.rp.broker;
 
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.google.auto.service.AutoService;
 import org.keycloak.broker.provider.AbstractIdentityProviderFactory;
+import org.keycloak.broker.provider.IdentityProviderFactory;
 import org.keycloak.models.IdentityProviderModel;
 import org.keycloak.models.KeycloakSession;
 
+import java.util.HashMap;
+import java.util.Map;
+
+@AutoService(IdentityProviderFactory.class)
 public class OIDCFedIdentityProviderFactory extends AbstractIdentityProviderFactory<OIDCFedIdentityProvider> {
 
     public static final String PROVIDER_ID = "oidc-federation";
@@ -33,7 +35,7 @@ public class OIDCFedIdentityProviderFactory extends AbstractIdentityProviderFact
     }
 
     @Override
-    public Map<String, String> parseConfig(KeycloakSession session, InputStream inputStream) {
+    public Map<String, String> parseConfig(KeycloakSession session, String config) {
         //may be needed to implement later
         return new HashMap<>();
     }

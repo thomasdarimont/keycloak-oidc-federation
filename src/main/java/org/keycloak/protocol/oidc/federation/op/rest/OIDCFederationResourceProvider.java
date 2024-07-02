@@ -17,17 +17,15 @@
 
 package org.keycloak.protocol.oidc.federation.op.rest;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.core.UriBuilder;
-
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.UriBuilder;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.services.resource.RealmResourceProvider;
 import org.keycloak.services.resources.RealmsResource;
 
 public class OIDCFederationResourceProvider implements RealmResourceProvider {
 
-    private KeycloakSession session;
+    private final KeycloakSession session;
 
     public OIDCFederationResourceProvider(KeycloakSession session) {
         this.session = session;
@@ -43,26 +41,21 @@ public class OIDCFederationResourceProvider implements RealmResourceProvider {
     }
 
     public static UriBuilder federationExplicitRegistration(UriBuilder builder) {
-        return builder.path(RealmsResource.class).path(RealmsResource.class, "getRealmResource").path(OIDCFederationResourceProviderFactory.ID).path(OIDCFederationResourceProvider.class, "getFederationOPService")
-            .path(FederationOPService.class, "getFederationRegistration");
+        return builder.path(RealmsResource.class) //
+                .path(RealmsResource.class, "getRealmResource") //
+                .path(OIDCFederationResourceProviderFactory.ID) //
+                .path(OIDCFederationResourceProvider.class, "getFederationOPService") //
+                .path(FederationOPService.class, "getFederationRegistration");
     }
 
     @Path("op")
     public FederationOPService getFederationOPService() {
-        FederationOPService opService = new FederationOPService(session);
-        ResteasyProviderFactory.getInstance().injectProperties(opService);
-        return opService;
+        return new FederationOPService(session);
     }
 
     @Path("configuration")
     public FederationConfigurationEndpoint getFederationConfigurationEndpoint() {
-        FederationConfigurationEndpoint confEndpoint = new FederationConfigurationEndpoint(session);
-        ResteasyProviderFactory.getInstance().injectProperties(confEndpoint);
-        return confEndpoint;
+        return new FederationConfigurationEndpoint(session);
     }
-
-
-
-
 
 }

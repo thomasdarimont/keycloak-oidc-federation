@@ -9,8 +9,8 @@ public class DeleteExpiredClientScheduledTaskRunner implements ScheduledTask {
 
     private static final Logger logger = Logger.getLogger(DeleteExpiredClientScheduledTaskRunner.class);
 
-    private String id;
-    private String realmId;
+    private final String id;
+    private final String realmId;
 
     public DeleteExpiredClientScheduledTaskRunner(String id, String realmId) {
         this.id = id;

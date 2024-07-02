@@ -1,19 +1,13 @@
 package org.keycloak.protocol.oidc.federation.rp;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotAuthorizedException;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.jose.jws.JWSInputException;
@@ -40,13 +34,17 @@ import org.keycloak.services.resources.admin.AdminAuth;
 import org.keycloak.services.resources.admin.permissions.AdminPermissionEvaluator;
 import org.keycloak.services.resources.admin.permissions.AdminPermissions;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+
 public class OIDCFedIdPResource {
 
     private static final Logger logger = Logger.getLogger(OIDCFedIdPResource.class);
 
-    private KeycloakSession session;
-    private OIDCFedIdentityProviderConfig config;
-    private RealmModel realm;
+    private final KeycloakSession session;
+    private final OIDCFedIdentityProviderConfig config;
+    private final RealmModel realm;
 
     public OIDCFedIdPResource(KeycloakSession session, RealmModel realm, OIDCFedIdentityProviderConfig config) {
         this.session = session;
@@ -69,36 +67,28 @@ public class OIDCFedIdPResource {
     public Response excplicitRegistration() {
         AdminPermissionEvaluator auth = authenticateRealmAdminRequest();
         if (!"explicit".equals(config.getClientRegistrationTypes()))
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(new ExceptionMessage("This OIDC Federation RP does not support excplicit registration")).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(new ExceptionMessage("This OIDC Federation RP does not support excplicit registration")).build();
 
         TrustChainProcessor trustChainProcessor = new TrustChainProcessor();
         String federationRegistrationUrl;
         try {
             String jwtStatement = FedUtils.getSelfSignedToken(config.getOpEntityIdentifier());
             EntityStatement opStatement = trustChainProcessor.parseAndValidateSelfSigned(jwtStatement);
-            if (opStatement.getMetadata() == null || opStatement.getMetadata().getOp() == null
-                || opStatement.getMetadata().getOp().getFederationRegistrationEndpoint() == null
-                || opStatement.getMetadata().getOp().getClientRegistrationTypesSupported() == null
-                || !opStatement.getMetadata().getOp().getClientRegistrationTypesSupported().contains("explicit"))
-                return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(new ExceptionMessage("This is not a OIDC Federation OP or it does not support excplicit registration")).build();
+            if (opStatement.getMetadata() == null || opStatement.getMetadata().getOpenIdProviderMetadata() == null || opStatement.getMetadata().getOpenIdProviderMetadata().getFederationRegistrationEndpoint() == null || opStatement.getMetadata().getOpenIdProviderMetadata().getClientRegistrationTypesSupported() == null || !opStatement.getMetadata().getOpenIdProviderMetadata().getClientRegistrationTypesSupported().contains("explicit"))
+                return Response.status(Response.Status.BAD_REQUEST).entity(new ExceptionMessage("This is not a OIDC Federation OP or it does not support excplicit registration")).build();
 
-            List<TrustChain> trustChains = trustChainProcessor.constructTrustChainsFromJWT(jwtStatement,
-                config.getTrustAnchorIds(), false);
-            if (trustChains.size() > 0) {
-                federationRegistrationUrl = opStatement.getMetadata().getOp().getFederationRegistrationEndpoint();
+            List<TrustChain> trustChains = trustChainProcessor.constructTrustChainsFromJWT(jwtStatement, config.getTrustAnchorIds(), false);
+            if (!trustChains.isEmpty()) {
+                federationRegistrationUrl = opStatement.getMetadata().getOpenIdProviderMetadata().getFederationRegistrationEndpoint();
             } else {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ExceptionMessage("Exception in fetching .well-known"))
-                    .build();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ExceptionMessage("Exception in fetching .well-known")).build();
             }
         } catch (IOException e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ExceptionMessage("Exception in fetching .well-known")).build();
         } catch (UnparsableException e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(new ExceptionMessage("Exception in parsing entity statement of .well-known")).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ExceptionMessage("Exception in parsing entity statement of .well-known")).build();
         } catch (BadSigningOrEncryptionException e) {
             e.printStackTrace();
             return Response.status(Response.Status.UNAUTHORIZED).entity(new ExceptionMessage("No valid token for .well-known")).build();
@@ -112,24 +102,18 @@ public class OIDCFedIdPResource {
             try {
                 EntityStatement responseStatement = trustChainProcessor.parseAndValidateSelfSigned(entityResponse);
                 // do antything with policy and authority hint???
-                if (responseStatement.getMetadata() == null || responseStatement.getMetadata().getRp() == null
-                    || responseStatement.getAuthorityHints() == null
-                    || ! config.getTrustAnchorIds().contains(responseStatement.getMetadata().getRp().getTrust_anchor_id()))
-                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ExceptionMessage("Wrong OP Response entity statement"))
-                        .build();
+                if (responseStatement.getMetadata() == null || responseStatement.getMetadata().getRelyingPartyMetadata() == null || responseStatement.getAuthorityHints() == null || !config.getTrustAnchorIds().contains(responseStatement.getMetadata().getRelyingPartyMetadata().getTrustAnchorId()))
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ExceptionMessage("Wrong OP Response entity statement")).build();
 
-                IdentityProviderModel model = EntityStatementConverter
-                    .convertEntityStatementToIdp(responseStatement.getMetadata().getRp(), realm, config.getAlias());
+                IdentityProviderModel model = EntityStatementConverter.convertEntityStatementToIdp(responseStatement.getMetadata().getRelyingPartyMetadata(), realm, config.getAlias());
                 IdentityProviderRepresentation representation = ModelToRepresentation.toRepresentation(realm, model);
                 return Response.ok(representation).build();
             } catch (UnparsableException e) {
                 e.printStackTrace();
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(new ExceptionMessage("Exception in parsing OP Response entity statement")).build();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ExceptionMessage("Exception in parsing OP Response entity statement")).build();
             } catch (BadSigningOrEncryptionException e) {
                 e.printStackTrace();
-                return Response.status(Response.Status.UNAUTHORIZED).entity(new ExceptionMessage("No valid token for OP Response entity statement"))
-                    .build();
+                return Response.status(Response.Status.UNAUTHORIZED).entity(new ExceptionMessage("No valid token for OP Response entity statement")).build();
             }
             // entityResponse parse and save
         } catch (IOException e) {
@@ -137,13 +121,12 @@ public class OIDCFedIdPResource {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ExceptionMessage("Exception in registration process")).build();
         }
-       
+
     }
 
     private AdminPermissionEvaluator authenticateRealmAdminRequest() {
-        AppAuthManager authManager = new AppAuthManager();
         HttpHeaders headers = session.getContext().getRequestHeaders();
-        String tokenString = authManager.extractAuthorizationHeaderToken(headers);
+        String tokenString = AppAuthManager.extractAuthorizationHeaderToken(headers);
         if (tokenString == null) {
             throw new NotAuthorizedException("Bearer");
         }
@@ -163,8 +146,8 @@ public class OIDCFedIdPResource {
         if (!realm.getId().equals(session.getContext().getRealm().getId())) {
             throw new NotAuthorizedException("False realm in token");
         }
-        AuthenticationManager.AuthResult authResult = authManager.authenticateBearerToken(session, realm,
-            session.getContext().getUri(), this.session.getContext().getConnection(), headers);
+
+        AuthenticationManager.AuthResult authResult = new AppAuthManager.BearerTokenAuthenticator(session).authenticate();
         if (authResult == null) {
             logger.debug("Token not valid");
             throw new NotAuthorizedException("Bearer");
@@ -173,7 +156,6 @@ public class OIDCFedIdPResource {
         ClientModel client = realm.getClientByClientId(token.getIssuedFor());
         if (client == null) {
             throw new NotFoundException("Could not find client for authorization");
-
         }
 
         AdminAuth adminAuth = new AdminAuth(realm, authResult.getToken(), authResult.getUser(), client);

@@ -1,10 +1,12 @@
 package org.keycloak.protocol.oidc.federation.op.tasks;
 
+import com.google.auto.service.AutoService;
 import org.keycloak.provider.Provider;
 import org.keycloak.provider.ProviderFactory;
 import org.keycloak.provider.Spi;
 
-public class ClientExpiryTasksSpi implements Spi{
+@AutoService(Spi.class)
+public class ClientExpiryTasksSpi implements Spi {
 
     @Override
     public boolean isInternal() {
@@ -16,16 +18,16 @@ public class ClientExpiryTasksSpi implements Spi{
         return "client-expiry-tasks-spi";
     }
 
-    
+
     @Override
     public Class<? extends Provider> getProviderClass() {
-        return ClientExpiryTasksI.class;
+        return ClientExpiryTasks.class;
     }
 
     @Override
     public Class<? extends ProviderFactory> getProviderFactoryClass() {
-        return ClientExpiryTasksFactoryI.class;
+        return ClientExpiryTasksFactory.class;
     }
-    
+
 
 }

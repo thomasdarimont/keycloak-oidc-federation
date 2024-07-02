@@ -2,11 +2,6 @@ package org.keycloak.protocol.oidc.federation.common.processes;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -18,7 +13,6 @@ import java.util.stream.Stream;
 
 import org.jboss.logging.Logger;
 import org.keycloak.jose.jwk.JSONWebKeySet;
-import org.keycloak.models.KeycloakSession;
 import org.keycloak.protocol.oidc.federation.common.TrustChain;
 import org.keycloak.protocol.oidc.federation.common.beans.EntityStatement;
 import org.keycloak.protocol.oidc.federation.common.beans.MetadataPolicy;
@@ -32,7 +26,6 @@ import org.keycloak.protocol.oidc.federation.common.exceptions.RemoteFetchingExc
 import org.keycloak.protocol.oidc.federation.common.exceptions.UnparsableException;
 import org.keycloak.protocol.oidc.federation.common.helpers.FedUtils;
 import org.keycloak.protocol.oidc.federation.common.helpers.MetadataPolicyUtils;
-import org.keycloak.protocol.oidc.federation.op.rest.FederationOPService;
 import org.keycloak.protocol.oidc.utils.OIDCResponseType;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -40,13 +33,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.BadJOSEException;
-import com.nimbusds.jose.proc.DefaultJOSEObjectTypeVerifier;
 import com.nimbusds.jose.proc.JWSKeySelector;
 import com.nimbusds.jose.proc.JWSVerificationKeySelector;
 import com.nimbusds.jose.proc.SecurityContext;
@@ -68,7 +59,7 @@ public class TrustChainProcessor {
 	/**
      * This should construct all possible trust chains from a given leaf node url to a set of trust anchor urls 
      * @param leafNodeBaseUrl  this url should point to the base path of the leaf node (without the .well-known discovery subpath)
-     * @param trustAnchorId this should hold the trust anchor ids
+     * @param trustAnchorIds this should hold the trust anchor ids
      * @return any valid trust chains from the leaf node to the trust anchor.
      * @throws IOException 
      */
@@ -81,7 +72,7 @@ public class TrustChainProcessor {
     /**
      * This should construct all possible trust chains from a given leaf node self-signed and encoded JWT to a set of trust anchor urls 
      * @param leafJWT  this is the self-signed JWT EntityStatement of a leaf node (Relay party or Openid Provider)
-     * @param trustAnchorId this should hold the trust anchor ids
+     * @param trustAnchorIds this should hold the trust anchor ids
      * @return any valid trust chains from the leaf node JWT to the trust anchor.
      */
 	public List<TrustChain> constructTrustChainsFromJWT(String leafJWT, Set<String> trustAnchorIds, boolean policyRequired) {
@@ -122,10 +113,10 @@ public class TrustChainProcessor {
             //combine policies if valid till now
             if(trustChain != null && parsedChain.size()>1 && policyRequired) {
                 MetadataPolicy metadataPolicy = parsedChain.get(parsedChain.size()-1).getMetadataPolicy();
-                RPMetadataPolicy combinedPolicy = parsedChain.get(parsedChain.size()-1).getMetadataPolicy().getRpPolicy();
+                RPMetadataPolicy combinedPolicy = parsedChain.get(parsedChain.size()-1).getMetadataPolicy().getRelyingPartyPolicy();
                 for(int i=parsedChain.size()-2; i>0; i--) {
                     try {
-                        combinedPolicy = MetadataPolicyUtils.combineClientPOlicies(combinedPolicy, parsedChain.get(i).getMetadataPolicy().getRpPolicy());
+                        combinedPolicy = MetadataPolicyUtils.combineClientPolicies(combinedPolicy, parsedChain.get(i).getMetadataPolicy().getRelyingPartyPolicy());
                     }
                     catch (MetadataPolicyCombinationException e) {
                         logger.debug(String.format("Cannot combine metadata policy of iss=%s sub=%s and its inferiors", parsedChain.get(i).getIssuer(), parsedChain.get(i).getSubject()));
@@ -215,7 +206,7 @@ public class TrustChainProcessor {
 	
 	/**
 	 * This validates the whole trustChain signature
-	 * @param trustChainRaw
+	 * @param trustChain
 	 * @return the outcome of the validation (true/false)
 	 * @throws InvalidTrustChainException 
 	 * @throws UnparsableException 
@@ -350,11 +341,12 @@ public class TrustChainProcessor {
     public TrustChain findAcceptableMetadataPolicyChain(List<TrustChain> trustChains, EntityStatement statement) {
         TrustChain validChain = null;
         RPMetadataPolicy opPolicy = createMetadataPolicies();
+		EntityStatement current = statement;
         for (TrustChain chain : trustChains) {
             try {
                 RPMetadataPolicy finalPolicy = MetadataPolicyUtils
-                    .combineClientPOlicies(chain.getCombinedPolicy(), opPolicy);
-                statement = MetadataPolicyUtils.applyPoliciesToRPStatement(statement, finalPolicy);
+                    .combineClientPolicies(chain.getCombinedPolicy(), opPolicy);
+				current = MetadataPolicyUtils.applyPoliciesToRPStatement(current, finalPolicy);
                 validChain = chain;
                 break;
             } catch (MetadataPolicyCombinationException | MetadataPolicyException e) {
@@ -372,10 +364,10 @@ public class TrustChainProcessor {
      */
     private RPMetadataPolicy createMetadataPolicies() {
         PolicyList<String> policy = new PolicyList<String>();
-        policy.setSubset_of(ALLOWED_RESPONSE_TYPES);
+        policy.setSubsetOf(ALLOWED_RESPONSE_TYPES);
         policy.setEssential(false);
         RPMetadataPolicy rpPolicy = new RPMetadataPolicy();
-        rpPolicy.setResponse_types(policy);
+        rpPolicy.setResponseTypes(policy);
         return rpPolicy;
 
     }

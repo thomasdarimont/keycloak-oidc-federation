@@ -5,38 +5,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class MetadataPolicy {
 
     @JsonProperty("openid_relying_party")
-    private RPMetadataPolicy rpPolicy;
-    
+    private RPMetadataPolicy relyingPartyPolicy;
+
     @JsonProperty("openid_provider")
-    private OPMetadataPolicy opPolicy;
-    
+    private OPMetadataPolicy openIdProviderPolicy;
+
     public MetadataPolicy() {
-        
     }
 
-    public MetadataPolicy(RPMetadataPolicy rpPolicy) {
-        this.rpPolicy =rpPolicy;
-    }
-    
-    public MetadataPolicy(OPMetadataPolicy opPolicy) {
-        this.opPolicy =opPolicy;
+    public MetadataPolicy(RPMetadataPolicy relyingPartyPolicy) {
+        this.relyingPartyPolicy = relyingPartyPolicy;
     }
 
-    public RPMetadataPolicy getRpPolicy() {
-        return rpPolicy;
+    public MetadataPolicy(OPMetadataPolicy openIdProviderPolicy) {
+        this.openIdProviderPolicy = openIdProviderPolicy;
     }
 
-    public void setRpPolicy(RPMetadataPolicy rpPolicy) {
-        this.rpPolicy = rpPolicy;
+    public RPMetadataPolicy getRelyingPartyPolicy() {
+        return relyingPartyPolicy;
     }
 
-	public OPMetadataPolicy getOpPolicy() {
-		return opPolicy;
-	}
+    public void setRelyingPartyPolicy(RPMetadataPolicy relyingPartyPolicy) {
+        this.relyingPartyPolicy = relyingPartyPolicy;
+    }
 
-	public void setOpPolicy(OPMetadataPolicy opPolicy) {
-		this.opPolicy = opPolicy;
-	}
-    
-    
+    public OPMetadataPolicy getOpenIdProviderPolicy() {
+        return openIdProviderPolicy;
+    }
+
+    public void setOpenIdProviderPolicy(OPMetadataPolicy openIdProviderPolicy) {
+        this.openIdProviderPolicy = openIdProviderPolicy;
+    }
+
 }

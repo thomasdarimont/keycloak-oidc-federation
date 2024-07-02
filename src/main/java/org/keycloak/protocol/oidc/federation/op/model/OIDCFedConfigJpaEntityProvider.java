@@ -1,11 +1,11 @@
 package org.keycloak.protocol.oidc.federation.op.model;
 
+import org.keycloak.connections.jpa.entityprovider.JpaEntityProvider;
+
 import java.util.Collections;
 import java.util.List;
 
-import org.keycloak.connections.jpa.entityprovider.JpaEntityProvider;
-
-public class OIDCFedConfigJpaEntityProvider  implements JpaEntityProvider {
+public class OIDCFedConfigJpaEntityProvider implements JpaEntityProvider {
 
     // List of your JPA entities.
     @Override
@@ -17,7 +17,7 @@ public class OIDCFedConfigJpaEntityProvider  implements JpaEntityProvider {
     // You can return null if you don't want Liquibase to create and update the DB schema.
     @Override
     public String getChangelogLocation() {
-        return "META-INF/oidc-federation-changelog.xml";
+        return "META-INF/changelog/oidc-federation-changelog.xml";
     }
 
     // Helper method, which will be used internally by Liquibase.
@@ -28,7 +28,7 @@ public class OIDCFedConfigJpaEntityProvider  implements JpaEntityProvider {
 
     @Override
     public void close() {
-        
+
     }
 
 }

@@ -35,7 +35,6 @@ public class OIDCFedScheduledTaskRunner implements Runnable {
             logger.debug("Executed and canceled scheduled task " + task.getClass().getSimpleName());
         } catch (Throwable t) {
             ServicesLogger.LOGGER.failedToRunScheduledTask(t, task.getClass().getSimpleName());
-
             session.getTransactionManager().rollback();
         } finally {
             try {

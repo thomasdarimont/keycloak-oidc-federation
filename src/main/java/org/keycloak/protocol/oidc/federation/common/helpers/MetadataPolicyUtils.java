@@ -9,50 +9,50 @@ import org.keycloak.protocol.oidc.federation.common.exceptions.MetadataPolicyExc
 
 public class MetadataPolicyUtils {
 
-    public static RPMetadataPolicy combineClientPOlicies(
-        RPMetadataPolicy superior, RPMetadataPolicy inferior)
-        throws MetadataPolicyCombinationException {
-        if (inferior == null)
+    public static RPMetadataPolicy combineClientPolicies(RPMetadataPolicy superior, RPMetadataPolicy inferior) throws MetadataPolicyCombinationException {
+
+        if (inferior == null) {
             return superior;
-        if (superior == null)
+        }
+
+        if (superior == null) {
             return inferior;
-
-        if (superior.getApplication_type() != null) {
-            superior.setApplication_type(superior.getApplication_type().combinePolicy(inferior.getApplication_type()));
-        } else {
-            superior.setApplication_type(inferior.getApplication_type());
         }
 
-        if (superior.getClient_id_issued_at() != null) {
-            superior.setClient_id_issued_at(superior.getClient_id_issued_at().combinePolicy(inferior.getClient_id_issued_at()));
+        if (superior.getApplicationType() != null) {
+            superior.setApplicationType(superior.getApplicationType().combinePolicy(inferior.getApplicationType()));
         } else {
-            superior.setClient_id_issued_at(inferior.getClient_id_issued_at());
+            superior.setApplicationType(inferior.getApplicationType());
         }
 
-        if (superior.getClient_name() != null) {
-            superior.setClient_name(superior.getClient_name().combinePolicy(inferior.getClient_name()));
+        if (superior.getClientIdIssuedAt() != null) {
+            superior.setClientIdIssuedAt(superior.getClientIdIssuedAt().combinePolicy(inferior.getClientIdIssuedAt()));
         } else {
-            superior.setClient_name(inferior.getClient_name());
+            superior.setClientIdIssuedAt(inferior.getClientIdIssuedAt());
         }
 
-        if (superior.getClient_registration_types() != null) {
-            superior.setClient_registration_types(
-                superior.getClient_registration_types().combinePolicy(inferior.getClient_registration_types()));
+        if (superior.getClientName() != null) {
+            superior.setClientName(superior.getClientName().combinePolicy(inferior.getClientName()));
         } else {
-            superior.setClient_registration_types(inferior.getClient_registration_types());
+            superior.setClientName(inferior.getClientName());
         }
 
-        if (superior.getClient_secret_expires_at() != null) {
-            superior.setClient_secret_expires_at(
-                superior.getClient_secret_expires_at().combinePolicy(inferior.getClient_secret_expires_at()));
+        if (superior.getClientRegistrationTypes() != null) {
+            superior.setClientRegistrationTypes(superior.getClientRegistrationTypes().combinePolicy(inferior.getClientRegistrationTypes()));
         } else {
-            superior.setClient_secret_expires_at(inferior.getClient_secret_expires_at());
+            superior.setClientRegistrationTypes(inferior.getClientRegistrationTypes());
         }
 
-        if (superior.getClient_uri() != null) {
-            superior.setClient_uri(superior.getClient_uri().combinePolicy(inferior.getClient_uri()));
+        if (superior.getClientSecretExpiresAt() != null) {
+            superior.setClientSecretExpiresAt(superior.getClientSecretExpiresAt().combinePolicy(inferior.getClientSecretExpiresAt()));
         } else {
-            superior.setClient_uri(inferior.getClient_uri());
+            superior.setClientSecretExpiresAt(inferior.getClientSecretExpiresAt());
+        }
+
+        if (superior.getClientUri() != null) {
+            superior.setClientUri(superior.getClientUri().combinePolicy(inferior.getClientUri()));
+        } else {
+            superior.setClientUri(inferior.getClientUri());
         }
 
         if (superior.getContacts() != null) {
@@ -61,139 +61,130 @@ public class MetadataPolicyUtils {
             superior.setContacts(inferior.getContacts());
         }
 
-        if (superior.getDefault_acr_values() != null) {
-            superior.setDefault_acr_values(superior.getDefault_acr_values().combinePolicy(inferior.getDefault_acr_values()));
+        if (superior.getDefaultAcrValues() != null) {
+            superior.setDefaultAcrValues(superior.getDefaultAcrValues().combinePolicy(inferior.getDefaultAcrValues()));
         } else {
-            superior.setDefault_acr_values(inferior.getDefault_acr_values());
+            superior.setDefaultAcrValues(inferior.getDefaultAcrValues());
         }
 
-        if (superior.getDefault_max_age() != null) {
-            superior.setDefault_max_age(superior.getDefault_max_age().combinePolicy(inferior.getDefault_max_age()));
+        if (superior.getDefaultMaxAge() != null) {
+            superior.setDefaultMaxAge(superior.getDefaultMaxAge().combinePolicy(inferior.getDefaultMaxAge()));
         } else {
-            superior.setDefault_max_age(inferior.getDefault_max_age());
+            superior.setDefaultMaxAge(inferior.getDefaultMaxAge());
         }
 
-        if (superior.getGrant_types() != null) {
-            superior.setGrant_types(superior.getGrant_types().combinePolicy(inferior.getGrant_types()));
+        if (superior.getGrantTypes() != null) {
+            superior.setGrantTypes(superior.getGrantTypes().combinePolicy(inferior.getGrantTypes()));
         } else {
-            superior.setGrant_types(inferior.getGrant_types());
+            superior.setGrantTypes(inferior.getGrantTypes());
         }
 
-        if (superior.getId_token_encrypted_response_alg() != null) {
-            superior.setId_token_encrypted_response_alg(
-                superior.getId_token_encrypted_response_alg().combinePolicy(inferior.getId_token_encrypted_response_alg()));
+        if (superior.getIdTokenEncryptedResponseAlg() != null) {
+            superior.setIdTokenEncryptedResponseAlg(superior.getIdTokenEncryptedResponseAlg().combinePolicy(inferior.getIdTokenEncryptedResponseAlg()));
         } else {
-            superior.setId_token_encrypted_response_alg(inferior.getId_token_encrypted_response_alg());
+            superior.setIdTokenEncryptedResponseAlg(inferior.getIdTokenEncryptedResponseAlg());
         }
 
-        if (superior.getId_token_encrypted_response_enc() != null) {
-            superior.setId_token_encrypted_response_enc(
-                superior.getId_token_encrypted_response_enc().combinePolicy(inferior.getId_token_encrypted_response_enc()));
+        if (superior.getIdTokenEncryptedResponseEnc() != null) {
+            superior.setIdTokenEncryptedResponseEnc(superior.getIdTokenEncryptedResponseEnc().combinePolicy(inferior.getIdTokenEncryptedResponseEnc()));
         } else {
-            superior.setId_token_encrypted_response_enc(inferior.getId_token_encrypted_response_enc());
+            superior.setIdTokenEncryptedResponseEnc(inferior.getIdTokenEncryptedResponseEnc());
         }
 
-        if (superior.getId_token_signed_response_alg() != null) {
-            superior.setId_token_signed_response_alg(
-                superior.getId_token_signed_response_alg().combinePolicy(inferior.getId_token_signed_response_alg()));
+        if (superior.getIdTokenSignedResponseAlg() != null) {
+            superior.setIdTokenSignedResponseAlg(superior.getIdTokenSignedResponseAlg().combinePolicy(inferior.getIdTokenSignedResponseAlg()));
         } else {
-            superior.setId_token_signed_response_alg(inferior.getId_token_signed_response_alg());
+            superior.setIdTokenSignedResponseAlg(inferior.getIdTokenSignedResponseAlg());
         }
 
-        if (superior.getInitiate_login_uri() != null) {
-            superior.setInitiate_login_uri(superior.getInitiate_login_uri().combinePolicy(inferior.getInitiate_login_uri()));
+        if (superior.getInitiateLoginUri() != null) {
+            superior.setInitiateLoginUri(superior.getInitiateLoginUri().combinePolicy(inferior.getInitiateLoginUri()));
         } else {
-            superior.setInitiate_login_uri(inferior.getInitiate_login_uri());
+            superior.setInitiateLoginUri(inferior.getInitiateLoginUri());
         }
 
-        if (superior.getJwks_uri() != null) {
-            superior.setJwks_uri(superior.getJwks_uri().combinePolicy(inferior.getJwks_uri()));
+        if (superior.getJwksUri() != null) {
+            superior.setJwksUri(superior.getJwksUri().combinePolicy(inferior.getJwksUri()));
         } else {
-            superior.setJwks_uri(inferior.getJwks_uri());
+            superior.setJwksUri(inferior.getJwksUri());
         }
 
-        if (superior.getLogo_uri() != null) {
-            superior.setLogo_uri(superior.getLogo_uri().combinePolicy(inferior.getLogo_uri()));
+        if (superior.getLogoUri() != null) {
+            superior.setLogoUri(superior.getLogoUri().combinePolicy(inferior.getLogoUri()));
         } else {
-            superior.setLogo_uri(inferior.getLogo_uri());
+            superior.setLogoUri(inferior.getLogoUri());
         }
 
-        if (superior.getOrganization_name() != null) {
-            superior.setOrganization_name(superior.getOrganization_name().combinePolicy(inferior.getOrganization_name()));
+        if (superior.getOrganizationName() != null) {
+            superior.setOrganizationName(superior.getOrganizationName().combinePolicy(inferior.getOrganizationName()));
         } else {
-            superior.setOrganization_name(inferior.getOrganization_name());
+            superior.setOrganizationName(inferior.getOrganizationName());
         }
 
-        if (superior.getPolicy_uri() != null) {
-            superior.setPolicy_uri(superior.getPolicy_uri().combinePolicy(inferior.getPolicy_uri()));
+        if (superior.getPolicyUri() != null) {
+            superior.setPolicyUri(superior.getPolicyUri().combinePolicy(inferior.getPolicyUri()));
         } else {
-            superior.setPolicy_uri(inferior.getPolicy_uri());
+            superior.setPolicyUri(inferior.getPolicyUri());
         }
 
-        if (superior.getPost_logout_redirect_uris() != null) {
-            superior.setPost_logout_redirect_uris(
-                superior.getPost_logout_redirect_uris().combinePolicy(inferior.getPost_logout_redirect_uris()));
+        if (superior.getPostLogoutRedirectUris() != null) {
+            superior.setPostLogoutRedirectUris(superior.getPostLogoutRedirectUris().combinePolicy(inferior.getPostLogoutRedirectUris()));
         } else {
-            superior.setPost_logout_redirect_uris(inferior.getPost_logout_redirect_uris());
+            superior.setPostLogoutRedirectUris(inferior.getPostLogoutRedirectUris());
         }
 
-        if (superior.getRedirect_uris() != null) {
-            superior.setRedirect_uris(superior.getRedirect_uris().combinePolicy(inferior.getRedirect_uris()));
+        if (superior.getRedirectUris() != null) {
+            superior.setRedirectUris(superior.getRedirectUris().combinePolicy(inferior.getRedirectUris()));
         } else {
-            superior.setRedirect_uris(inferior.getRedirect_uris());
+            superior.setRedirectUris(inferior.getRedirectUris());
         }
 
-        if (superior.getRegistration_access_token() != null) {
-            superior.setRegistration_access_token(
-                superior.getRegistration_access_token().combinePolicy(inferior.getRegistration_access_token()));
+        if (superior.getRegistrationAccessToken() != null) {
+            superior.setRegistrationAccessToken(superior.getRegistrationAccessToken().combinePolicy(inferior.getRegistrationAccessToken()));
         } else {
-            superior.setRegistration_access_token(inferior.getRegistration_access_token());
+            superior.setRegistrationAccessToken(inferior.getRegistrationAccessToken());
         }
 
-        if (superior.getRegistration_client_uri() != null) {
-            superior.setRegistration_client_uri(
-                superior.getRegistration_client_uri().combinePolicy(inferior.getRegistration_client_uri()));
+        if (superior.getRegistrationClientUri() != null) {
+            superior.setRegistrationClientUri(superior.getRegistrationClientUri().combinePolicy(inferior.getRegistrationClientUri()));
         } else {
-            superior.setRegistration_client_uri(inferior.getRegistration_client_uri());
+            superior.setRegistrationClientUri(inferior.getRegistrationClientUri());
         }
 
-        if (superior.getRequest_object_encryption_alg() != null) {
-            superior.setRequest_object_encryption_alg(
-                superior.getRequest_object_encryption_alg().combinePolicy(inferior.getRequest_object_encryption_alg()));
+        if (superior.getRequestObjectEncryptionAlg() != null) {
+            superior.setRequestObjectEncryptionAlg(superior.getRequestObjectEncryptionAlg().combinePolicy(inferior.getRequestObjectEncryptionAlg()));
         } else {
-            superior.setRequest_object_encryption_alg(inferior.getRequest_object_encryption_alg());
+            superior.setRequestObjectEncryptionAlg(inferior.getRequestObjectEncryptionAlg());
         }
 
-        if (superior.getRequest_object_encryption_enc() != null) {
-            superior.setRequest_object_encryption_enc(
-                superior.getRequest_object_encryption_enc().combinePolicy(inferior.getRequest_object_encryption_enc()));
+        if (superior.getRequestObjectEncryptionEnc() != null) {
+            superior.setRequestObjectEncryptionEnc(superior.getRequestObjectEncryptionEnc().combinePolicy(inferior.getRequestObjectEncryptionEnc()));
         } else {
-            superior.setRequest_object_encryption_enc(inferior.getRequest_object_encryption_enc());
+            superior.setRequestObjectEncryptionEnc(inferior.getRequestObjectEncryptionEnc());
         }
 
-        if (superior.getRequest_object_signing_alg() != null) {
-            superior.setRequest_object_signing_alg(
-                superior.getRequest_object_signing_alg().combinePolicy(inferior.getRequest_object_signing_alg()));
+        if (superior.getRequestObjectSigningAlg() != null) {
+            superior.setRequestObjectSigningAlg(superior.getRequestObjectSigningAlg().combinePolicy(inferior.getRequestObjectSigningAlg()));
         } else {
-            superior.setRequest_object_signing_alg(inferior.getRequest_object_signing_alg());
+            superior.setRequestObjectSigningAlg(inferior.getRequestObjectSigningAlg());
         }
 
-        if (superior.getRequest_uris() != null) {
-            superior.setRequest_uris(superior.getRequest_uris().combinePolicy(inferior.getRequest_uris()));
+        if (superior.getRequestUris() != null) {
+            superior.setRequestUris(superior.getRequestUris().combinePolicy(inferior.getRequestUris()));
         } else {
-            superior.setRequest_uris(inferior.getRequest_uris());
+            superior.setRequestUris(inferior.getRequestUris());
         }
 
-        if (superior.getRequire_auth_time() != null) {
-            superior.setRequire_auth_time(superior.getRequire_auth_time().combinePolicy(inferior.getRequire_auth_time()));
+        if (superior.getRequireAuthTime() != null) {
+            superior.setRequireAuthTime(superior.getRequireAuthTime().combinePolicy(inferior.getRequireAuthTime()));
         } else {
-            superior.setRequire_auth_time(inferior.getRequire_auth_time());
+            superior.setRequireAuthTime(inferior.getRequireAuthTime());
         }
 
-        if (superior.getResponse_types() != null) {
-            superior.setResponse_types(superior.getResponse_types().combinePolicy(inferior.getResponse_types()));
+        if (superior.getResponseTypes() != null) {
+            superior.setResponseTypes(superior.getResponseTypes().combinePolicy(inferior.getResponseTypes()));
         } else {
-            superior.setResponse_types(inferior.getResponse_types());
+            superior.setResponseTypes(inferior.getResponseTypes());
         }
 
         if (superior.getScope() != null) {
@@ -202,265 +193,259 @@ public class MetadataPolicyUtils {
             superior.setScope(inferior.getScope());
         }
 
-        if (superior.getSector_identifier_uri() != null) {
-            superior.setSector_identifier_uri(
-                superior.getSector_identifier_uri().combinePolicy(inferior.getSector_identifier_uri()));
+        if (superior.getSectorIdentifierUri() != null) {
+            superior.setSectorIdentifierUri(superior.getSectorIdentifierUri().combinePolicy(inferior.getSectorIdentifierUri()));
         } else {
-            superior.setSector_identifier_uri(inferior.getSector_identifier_uri());
+            superior.setSectorIdentifierUri(inferior.getSectorIdentifierUri());
         }
 
-        if (superior.getSoftware_id() != null) {
-            superior.setSoftware_id(superior.getSoftware_id().combinePolicy(inferior.getSoftware_id()));
+        if (superior.getSoftwareId() != null) {
+            superior.setSoftwareId(superior.getSoftwareId().combinePolicy(inferior.getSoftwareId()));
         } else {
-            superior.setSoftware_id(inferior.getSoftware_id());
+            superior.setSoftwareId(inferior.getSoftwareId());
         }
 
-        if (superior.getSoftware_version() != null) {
-            superior.setSoftware_version(superior.getSoftware_version().combinePolicy(inferior.getSoftware_version()));
+        if (superior.getSoftwareVersion() != null) {
+            superior.setSoftwareVersion(superior.getSoftwareVersion().combinePolicy(inferior.getSoftwareVersion()));
         } else {
-            superior.setSoftware_version(inferior.getSoftware_version());
+            superior.setSoftwareVersion(inferior.getSoftwareVersion());
         }
 
-        if (superior.getSubject_type() != null) {
-            superior.setSubject_type(superior.getSubject_type().combinePolicy(inferior.getSubject_type()));
+        if (superior.getSubjectType() != null) {
+            superior.setSubjectType(superior.getSubjectType().combinePolicy(inferior.getSubjectType()));
         } else {
-            superior.setSubject_type(inferior.getSubject_type());
+            superior.setSubjectType(inferior.getSubjectType());
         }
 
-        if (superior.getTls_client_auth_subject_dn() != null) {
-            superior.setTls_client_auth_subject_dn(
-                superior.getTls_client_auth_subject_dn().combinePolicy(inferior.getTls_client_auth_subject_dn()));
+        if (superior.getTlsClientAuthSubjectDn() != null) {
+            superior.setTlsClientAuthSubjectDn(superior.getTlsClientAuthSubjectDn().combinePolicy(inferior.getTlsClientAuthSubjectDn()));
         } else {
-            superior.setTls_client_auth_subject_dn(inferior.getTls_client_auth_subject_dn());
+            superior.setTlsClientAuthSubjectDn(inferior.getTlsClientAuthSubjectDn());
         }
 
-        if (superior.getTls_client_certificate_bound_access_tokens() != null) {
-            superior.setTls_client_certificate_bound_access_tokens(superior.getTls_client_certificate_bound_access_tokens()
-                .combinePolicy(inferior.getTls_client_certificate_bound_access_tokens()));
+        if (superior.getTlsClientCertificateBoundAccessTokens() != null) {
+            superior.setTlsClientCertificateBoundAccessTokens(superior.getTlsClientCertificateBoundAccessTokens().combinePolicy(inferior.getTlsClientCertificateBoundAccessTokens()));
         } else {
-            superior.setTls_client_certificate_bound_access_tokens(inferior.getTls_client_certificate_bound_access_tokens());
+            superior.setTlsClientCertificateBoundAccessTokens(inferior.getTlsClientCertificateBoundAccessTokens());
         }
 
-        if (superior.getToken_endpoint_auth_method() != null) {
-            superior.setToken_endpoint_auth_method(
-                superior.getToken_endpoint_auth_method().combinePolicy(inferior.getToken_endpoint_auth_method()));
+        if (superior.getTokenEndpointAuthMethod() != null) {
+            superior.setTokenEndpointAuthMethod(superior.getTokenEndpointAuthMethod().combinePolicy(inferior.getTokenEndpointAuthMethod()));
         } else {
-            superior.setToken_endpoint_auth_method(inferior.getToken_endpoint_auth_method());
+            superior.setTokenEndpointAuthMethod(inferior.getTokenEndpointAuthMethod());
         }
 
-        if (superior.getToken_endpoint_auth_signing_alg() != null) {
-            superior.setToken_endpoint_auth_signing_alg(
-                superior.getToken_endpoint_auth_signing_alg().combinePolicy(inferior.getToken_endpoint_auth_signing_alg()));
+        if (superior.getTokenEndpointAuthSigningAlg() != null) {
+            superior.setTokenEndpointAuthSigningAlg(superior.getTokenEndpointAuthSigningAlg().combinePolicy(inferior.getTokenEndpointAuthSigningAlg()));
         } else {
-            superior.setToken_endpoint_auth_signing_alg(inferior.getToken_endpoint_auth_signing_alg());
+            superior.setTokenEndpointAuthSigningAlg(inferior.getTokenEndpointAuthSigningAlg());
         }
 
-        if (superior.getTos_uri() != null) {
-            superior.setTos_uri(superior.getTos_uri().combinePolicy(inferior.getTos_uri()));
+        if (superior.getTosUri() != null) {
+            superior.setTosUri(superior.getTosUri().combinePolicy(inferior.getTosUri()));
         } else {
-            superior.setTos_uri(inferior.getTos_uri());
+            superior.setTosUri(inferior.getTosUri());
         }
 
-        if (superior.getUserinfo_encrypted_response_alg() != null) {
-            superior.setUserinfo_encrypted_response_alg(
-                superior.getUserinfo_encrypted_response_alg().combinePolicy(inferior.getUserinfo_encrypted_response_alg()));
+        if (superior.getUserinfoEncryptedResponseAlg() != null) {
+            superior.setUserinfoEncryptedResponseAlg(superior.getUserinfoEncryptedResponseAlg().combinePolicy(inferior.getUserinfoEncryptedResponseAlg()));
         } else {
-            superior.setUserinfo_encrypted_response_alg(inferior.getUserinfo_encrypted_response_alg());
+            superior.setUserinfoEncryptedResponseAlg(inferior.getUserinfoEncryptedResponseAlg());
         }
 
-        if (superior.getUserinfo_encrypted_response_enc() != null) {
-            superior.setUserinfo_encrypted_response_enc(
-                superior.getUserinfo_encrypted_response_enc().combinePolicy(inferior.getUserinfo_encrypted_response_enc()));
+        if (superior.getUserinfoEncryptedResponseEnc() != null) {
+            superior.setUserinfoEncryptedResponseEnc(superior.getUserinfoEncryptedResponseEnc().combinePolicy(inferior.getUserinfoEncryptedResponseEnc()));
         } else {
-            superior.setUserinfo_encrypted_response_enc(inferior.getUserinfo_encrypted_response_enc());
+            superior.setUserinfoEncryptedResponseEnc(inferior.getUserinfoEncryptedResponseEnc());
         }
 
-        if (superior.getUserinfo_signed_response_alg() != null) {
-            superior.setUserinfo_signed_response_alg(
-                superior.getUserinfo_signed_response_alg().combinePolicy(inferior.getUserinfo_signed_response_alg()));
+        if (superior.getUserinfoSignedResponseAlg() != null) {
+            superior.setUserinfoSignedResponseAlg(superior.getUserinfoSignedResponseAlg().combinePolicy(inferior.getUserinfoSignedResponseAlg()));
         } else {
-            superior.setUserinfo_signed_response_alg(inferior.getUserinfo_signed_response_alg());
+            superior.setUserinfoSignedResponseAlg(inferior.getUserinfoSignedResponseAlg());
         }
 
         return superior;
     }
 
-    public static EntityStatement applyPoliciesToRPStatement(EntityStatement entity ,RPMetadataPolicy policy ) throws MetadataPolicyException,MetadataPolicyCombinationException {
-        
-        if (entity.getMetadata().getRp() == null)
-            throw new MetadataPolicyException("Try to enforce metapolicy for RP to an entity statement withoup RP");
-        
-        if (policy == null)
+    public static EntityStatement applyPoliciesToRPStatement(EntityStatement entity, RPMetadataPolicy policy) throws MetadataPolicyException, MetadataPolicyCombinationException {
+
+        if (entity.getMetadata().getRelyingPartyMetadata() == null) {
+            throw new MetadataPolicyException("Try to enforce metapolicy for RP to an entity statement without RP");
+        }
+
+        if (policy == null) {
             return entity;
-        
-        RPMetadata rp = entity.getMetadata().getRp();
-        
-        if (policy.getApplication_type() != null) {
-            rp.setApplicationType(policy.getApplication_type().enforcePolicy(rp.getApplicationType(),"ApplicationType"));
-        } 
-        
-        if (policy.getClient_id_issued_at() != null) {
-            rp.setClientIdIssuedAt(policy.getClient_id_issued_at().enforcePolicy(rp.getClientIdIssuedAt(),"ClientIdIssuedAt"));
-        } 
-        
-        if (policy.getClient_name() != null) {
-            rp.setClientName(policy.getClient_name().enforcePolicy(rp.getClientName(),"ClientName"));
-        } 
-        
-        if (policy.getClient_registration_types() != null) {
-            rp.setClient_registration_types(policy.getClient_registration_types().enforcePolicy(rp.getClient_registration_types(),"Client_registration_types"));
-        } 
-        
-        if (policy.getClient_secret_expires_at() != null) {
-            rp.setClientSecretExpiresAt(policy.getClient_secret_expires_at().enforcePolicy(rp.getClientSecretExpiresAt(),"ClientSecretExpiresAt"));
         }
-        
-        if (policy.getClient_uri() != null) {
-            rp.setClientUri(policy.getClient_uri().enforcePolicy(rp.getClientUri(),"ClientUri"));
-        } 
-        
+
+        RPMetadata rp = entity.getMetadata().getRelyingPartyMetadata();
+
+        if (policy.getApplicationType() != null) {
+            rp.setApplicationType(policy.getApplicationType().enforcePolicy(rp.getApplicationType(), "ApplicationType"));
+        }
+
+        if (policy.getClientIdIssuedAt() != null) {
+            rp.setClientIdIssuedAt(policy.getClientIdIssuedAt().enforcePolicy(rp.getClientIdIssuedAt(), "ClientIdIssuedAt"));
+        }
+
+        if (policy.getClientName() != null) {
+            rp.setClientName(policy.getClientName().enforcePolicy(rp.getClientName(), "ClientName"));
+        }
+
+        if (policy.getClientRegistrationTypes() != null) {
+            rp.setClientRegistrationTypes(policy.getClientRegistrationTypes().enforcePolicy(rp.getClientRegistrationTypes(), "Client_registration_types"));
+        }
+
+        if (policy.getClientSecretExpiresAt() != null) {
+            rp.setClientSecretExpiresAt(policy.getClientSecretExpiresAt().enforcePolicy(rp.getClientSecretExpiresAt(), "ClientSecretExpiresAt"));
+        }
+
+        if (policy.getClientUri() != null) {
+            rp.setClientUri(policy.getClientUri().enforcePolicy(rp.getClientUri(), "ClientUri"));
+        }
+
         if (policy.getContacts() != null) {
-            rp.setContacts(policy.getContacts().enforcePolicy(rp.getContacts(),"Contacts"));
-        } 
-        
-        if (policy.getDefault_acr_values() != null) {
-            rp.setDefaultAcrValues(policy.getDefault_acr_values().enforcePolicy(rp.getDefaultAcrValues(),"DefaultAcrValues"));
-        } 
-        
-        if (policy.getDefault_max_age() != null) {
-            rp.setDefaultMaxAge(policy.getDefault_max_age().enforcePolicy(rp.getDefaultMaxAge(),"DefaultMaxAge"));
-        } 
-        
-        if (policy.getGrant_types() != null) {
-             rp.setGrantTypes(policy.getGrant_types().enforcePolicy(rp.getGrantTypes(),"GrantTypes"));
-        } 
-        
-        if (policy.getId_token_encrypted_response_alg() != null) {
-            rp.setIdTokenEncryptedResponseAlg(policy.getId_token_encrypted_response_alg().enforcePolicy(rp.getIdTokenEncryptedResponseAlg(),"IdTokenEncryptedResponseAlg"));
+            rp.setContacts(policy.getContacts().enforcePolicy(rp.getContacts(), "Contacts"));
         }
-        
-        if (policy.getId_token_encrypted_response_enc() != null) {
-            rp.setIdTokenEncryptedResponseEnc(policy.getId_token_encrypted_response_enc().enforcePolicy(rp.getIdTokenEncryptedResponseEnc(),"IdTokenEncryptedResponseEnc"));
-        } 
-        
-        if (policy.getId_token_signed_response_alg() != null) {
-            rp.setIdTokenSignedResponseAlg(policy.getId_token_signed_response_alg().enforcePolicy(rp.getIdTokenSignedResponseAlg(),"IdTokenSignedResponseAlg"));
-        } 
-        
-        if (policy.getInitiate_login_uri() != null) {
-            rp.setInitiateLoginUri(policy.getInitiate_login_uri().enforcePolicy(rp.getInitiateLoginUri(),"InitiateLoginUri"));
-        } 
-        
-        if (policy.getJwks_uri() != null) {
-            rp.setJwksUri(policy.getJwks_uri().enforcePolicy(rp.getJwksUri(),"JwksUri"));
-        } 
-        
-        if (policy.getLogo_uri() != null) {
-            rp.setLogoUri(policy.getLogo_uri().enforcePolicy(rp.getLogoUri(),"LogoUri"));
-        } 
-        
-        if (policy.getOrganization_name() != null) {
-            rp.setOrganization_name(policy.getOrganization_name().enforcePolicy(rp.getOrganization_name(),"Organization_name"));
-        } 
-        
-        if (policy.getPolicy_uri() != null) {
-            rp.setPolicyUri(policy.getPolicy_uri().enforcePolicy(rp.getPolicyUri(),"PolicyUri"));
-        } 
-        
-        if (policy.getPost_logout_redirect_uris() != null) {
-            rp.setPostLogoutRedirectUris(policy.getPost_logout_redirect_uris().enforcePolicy(rp.getPostLogoutRedirectUris(),"PostLogoutRedirectUris"));
-        } 
-        
-        if (policy.getRedirect_uris() != null) {
-            rp.setRedirectUris(policy.getRedirect_uris().enforcePolicy(rp.getRedirectUris(),"RedirectUris"));
-        } 
-        
-        if (policy.getRegistration_access_token() != null) {
-            rp.setRegistrationAccessToken(policy.getRegistration_access_token().enforcePolicy(rp.getRegistrationAccessToken(),"RegistrationAccessToken"));
-        } 
-        
-        if (policy.getRegistration_client_uri() != null) {
-            rp.setRegistrationClientUri(policy.getRegistration_client_uri().enforcePolicy(rp.getRegistrationClientUri(),"RegistrationClientUri"));
-        } 
-        
-        if (policy.getRequest_object_encryption_alg() != null) {
-            rp.setRequestObjectEncryptionAlg(policy.getRequest_object_encryption_alg().enforcePolicy(rp.getRequestObjectEncryptionAlg(),"RequestObjectEncryptionAlg"));
-        } 
-        
-        if (policy.getRequest_object_encryption_enc() != null) {
-            rp.setRequestObjectEncryptionEnc(policy.getRequest_object_encryption_enc().enforcePolicy(rp.getRequestObjectEncryptionEnc(),"RequestObjectEncryptionEnc"));
-        } 
-        
-        if (policy.getRequest_object_signing_alg() != null) {
-            rp.setRequestObjectSigningAlg(policy.getRequest_object_signing_alg().enforcePolicy(rp.getRequestObjectSigningAlg(),"RequestObjectSigningAlg"));
-        } 
-        
-        if (policy.getRequest_uris() != null) {
-            rp.setRequestUris(policy.getRequest_uris().enforcePolicy(rp.getRequestUris(),"RequestUris"));
-        } 
-        
-        if (policy.getRequire_auth_time() != null) {
-            rp.setRequireAuthTime(policy.getRequire_auth_time().enforcePolicy(rp.getRequireAuthTime(),"RequireAuthTime"));
-        } 
-        
-        if (policy.getResponse_types() != null) {
-            rp.setResponseTypes(policy.getResponse_types().enforcePolicy(rp.getResponseTypes(),"ResponseTypes"));
-        } 
-        
+
+        if (policy.getDefaultAcrValues() != null) {
+            rp.setDefaultAcrValues(policy.getDefaultAcrValues().enforcePolicy(rp.getDefaultAcrValues(), "DefaultAcrValues"));
+        }
+
+        if (policy.getDefaultMaxAge() != null) {
+            rp.setDefaultMaxAge(policy.getDefaultMaxAge().enforcePolicy(rp.getDefaultMaxAge(), "DefaultMaxAge"));
+        }
+
+        if (policy.getGrantTypes() != null) {
+            rp.setGrantTypes(policy.getGrantTypes().enforcePolicy(rp.getGrantTypes(), "GrantTypes"));
+        }
+
+        if (policy.getIdTokenEncryptedResponseAlg() != null) {
+            rp.setIdTokenEncryptedResponseAlg(policy.getIdTokenEncryptedResponseAlg().enforcePolicy(rp.getIdTokenEncryptedResponseAlg(), "IdTokenEncryptedResponseAlg"));
+        }
+
+        if (policy.getIdTokenEncryptedResponseEnc() != null) {
+            rp.setIdTokenEncryptedResponseEnc(policy.getIdTokenEncryptedResponseEnc().enforcePolicy(rp.getIdTokenEncryptedResponseEnc(), "IdTokenEncryptedResponseEnc"));
+        }
+
+        if (policy.getIdTokenSignedResponseAlg() != null) {
+            rp.setIdTokenSignedResponseAlg(policy.getIdTokenSignedResponseAlg().enforcePolicy(rp.getIdTokenSignedResponseAlg(), "IdTokenSignedResponseAlg"));
+        }
+
+        if (policy.getInitiateLoginUri() != null) {
+            rp.setInitiateLoginUri(policy.getInitiateLoginUri().enforcePolicy(rp.getInitiateLoginUri(), "InitiateLoginUri"));
+        }
+
+        if (policy.getJwksUri() != null) {
+            rp.setJwksUri(policy.getJwksUri().enforcePolicy(rp.getJwksUri(), "JwksUri"));
+        }
+
+        if (policy.getLogoUri() != null) {
+            rp.setLogoUri(policy.getLogoUri().enforcePolicy(rp.getLogoUri(), "LogoUri"));
+        }
+
+        if (policy.getOrganizationName() != null) {
+            rp.setOrganizationName(policy.getOrganizationName().enforcePolicy(rp.getOrganizationName(), "Organization_name"));
+        }
+
+        if (policy.getPolicyUri() != null) {
+            rp.setPolicyUri(policy.getPolicyUri().enforcePolicy(rp.getPolicyUri(), "PolicyUri"));
+        }
+
+        if (policy.getPostLogoutRedirectUris() != null) {
+            rp.setPostLogoutRedirectUris(policy.getPostLogoutRedirectUris().enforcePolicy(rp.getPostLogoutRedirectUris(), "PostLogoutRedirectUris"));
+        }
+
+        if (policy.getRedirectUris() != null) {
+            rp.setRedirectUris(policy.getRedirectUris().enforcePolicy(rp.getRedirectUris(), "RedirectUris"));
+        }
+
+        if (policy.getRegistrationAccessToken() != null) {
+            rp.setRegistrationAccessToken(policy.getRegistrationAccessToken().enforcePolicy(rp.getRegistrationAccessToken(), "RegistrationAccessToken"));
+        }
+
+        if (policy.getRegistrationClientUri() != null) {
+            rp.setRegistrationClientUri(policy.getRegistrationClientUri().enforcePolicy(rp.getRegistrationClientUri(), "RegistrationClientUri"));
+        }
+
+        if (policy.getRequestObjectEncryptionAlg() != null) {
+            rp.setRequestObjectEncryptionAlg(policy.getRequestObjectEncryptionAlg().enforcePolicy(rp.getRequestObjectEncryptionAlg(), "RequestObjectEncryptionAlg"));
+        }
+
+        if (policy.getRequestObjectEncryptionEnc() != null) {
+            rp.setRequestObjectEncryptionEnc(policy.getRequestObjectEncryptionEnc().enforcePolicy(rp.getRequestObjectEncryptionEnc(), "RequestObjectEncryptionEnc"));
+        }
+
+        if (policy.getRequestObjectSigningAlg() != null) {
+            rp.setRequestObjectSigningAlg(policy.getRequestObjectSigningAlg().enforcePolicy(rp.getRequestObjectSigningAlg(), "RequestObjectSigningAlg"));
+        }
+
+        if (policy.getRequestUris() != null) {
+            rp.setRequestUris(policy.getRequestUris().enforcePolicy(rp.getRequestUris(), "RequestUris"));
+        }
+
+        if (policy.getRequireAuthTime() != null) {
+            rp.setRequireAuthTime(policy.getRequireAuthTime().enforcePolicy(rp.getRequireAuthTime(), "RequireAuthTime"));
+        }
+
+        if (policy.getResponseTypes() != null) {
+            rp.setResponseTypes(policy.getResponseTypes().enforcePolicy(rp.getResponseTypes(), "ResponseTypes"));
+        }
+
         if (policy.getScope() != null) {
-            rp.setScope(policy.getScope().enforcePolicy(rp.getScope(),"Scope"));
-        } 
-        
-        if (policy.getSector_identifier_uri() != null) {
-            rp.setSectorIdentifierUri(policy.getSector_identifier_uri().enforcePolicy(rp.getSectorIdentifierUri(),"SectorIdentifierUri"));
-        } 
-        
-        if (policy.getSoftware_id() != null) {
-            rp.setSoftwareId(policy.getSoftware_id().enforcePolicy(rp.getSoftwareId(),"SoftwareId"));
-        } 
-        
-        if (policy.getSoftware_version() != null) {
-            rp.setSoftwareVersion(policy.getSoftware_version().enforcePolicy(rp.getSoftwareVersion(),"SoftwareVersion"));
-        } 
-        
-        if (policy.getSubject_type() != null) {
-            rp.setSubjectType(policy.getSubject_type().enforcePolicy(rp.getSubjectType(),"SubjectType"));
+            rp.setScope(policy.getScope().enforcePolicy(rp.getScope(), "Scope"));
         }
-        
-        if (policy.getTls_client_auth_subject_dn() != null) {
-            rp.setTlsClientAuthSubjectDn(policy.getTls_client_auth_subject_dn().enforcePolicy(rp.getTlsClientAuthSubjectDn(),"TlsClientAuthSubjectDn"));
-        } 
-        
-        if (policy.getTls_client_certificate_bound_access_tokens() != null) {
-            rp.setTlsClientCertificateBoundAccessTokens(policy.getTls_client_certificate_bound_access_tokens().enforcePolicy(rp.getTlsClientCertificateBoundAccessTokens(),"TlsClientCertificateBoundAccessTokens"));
+
+        if (policy.getSectorIdentifierUri() != null) {
+            rp.setSectorIdentifierUri(policy.getSectorIdentifierUri().enforcePolicy(rp.getSectorIdentifierUri(), "SectorIdentifierUri"));
         }
-        
-        if (policy.getToken_endpoint_auth_method() != null) {
-            rp.setTokenEndpointAuthMethod(policy.getToken_endpoint_auth_method().enforcePolicy(rp.getTokenEndpointAuthMethod(),"TokenEndpointAuthMethod"));
+
+        if (policy.getSoftwareId() != null) {
+            rp.setSoftwareId(policy.getSoftwareId().enforcePolicy(rp.getSoftwareId(), "SoftwareId"));
         }
-        
-        if (policy.getToken_endpoint_auth_signing_alg() != null) {
-            rp.setTokenEndpointAuthSigningAlg(policy.getToken_endpoint_auth_signing_alg().enforcePolicy(rp.getTokenEndpointAuthSigningAlg(),"TokenEndpointAuthSigningAlg"));
+
+        if (policy.getSoftwareVersion() != null) {
+            rp.setSoftwareVersion(policy.getSoftwareVersion().enforcePolicy(rp.getSoftwareVersion(), "SoftwareVersion"));
         }
-        
-        if (policy.getTos_uri() != null) {
-            rp.setTosUri(policy.getTos_uri().enforcePolicy(rp.getTosUri(),"TosUri"));
-        } 
-        
-        if (policy.getUserinfo_encrypted_response_alg() != null) {
-            rp.setUserinfoEncryptedResponseAlg(policy.getUserinfo_encrypted_response_alg().enforcePolicy(rp.getUserinfoEncryptedResponseAlg(),"UserinfoEncryptedResponseAlg"));
+
+        if (policy.getSubjectType() != null) {
+            rp.setSubjectType(policy.getSubjectType().enforcePolicy(rp.getSubjectType(), "SubjectType"));
         }
-        
-        if (policy.getUserinfo_encrypted_response_enc() != null) {
-            rp.setUserinfoEncryptedResponseEnc(policy.getUserinfo_encrypted_response_enc().enforcePolicy(rp.getUserinfoEncryptedResponseEnc(),"UserinfoEncryptedResponseEnc"));
-        } 
-        
-        if (policy.getUserinfo_signed_response_alg() != null) {
-            rp.setUserinfoSignedResponseAlg(policy.getUserinfo_signed_response_alg().enforcePolicy(rp.getUserinfoSignedResponseAlg(),"UserinfoSignedResponseAlg"));
-        } 
-        
+
+        if (policy.getTlsClientAuthSubjectDn() != null) {
+            rp.setTlsClientAuthSubjectDn(policy.getTlsClientAuthSubjectDn().enforcePolicy(rp.getTlsClientAuthSubjectDn(), "TlsClientAuthSubjectDn"));
+        }
+
+        if (policy.getTlsClientCertificateBoundAccessTokens() != null) {
+            rp.setTlsClientCertificateBoundAccessTokens(policy.getTlsClientCertificateBoundAccessTokens().enforcePolicy(rp.getTlsClientCertificateBoundAccessTokens(), "TlsClientCertificateBoundAccessTokens"));
+        }
+
+        if (policy.getTokenEndpointAuthMethod() != null) {
+            rp.setTokenEndpointAuthMethod(policy.getTokenEndpointAuthMethod().enforcePolicy(rp.getTokenEndpointAuthMethod(), "TokenEndpointAuthMethod"));
+        }
+
+        if (policy.getTokenEndpointAuthSigningAlg() != null) {
+            rp.setTokenEndpointAuthSigningAlg(policy.getTokenEndpointAuthSigningAlg().enforcePolicy(rp.getTokenEndpointAuthSigningAlg(), "TokenEndpointAuthSigningAlg"));
+        }
+
+        if (policy.getTosUri() != null) {
+            rp.setTosUri(policy.getTosUri().enforcePolicy(rp.getTosUri(), "TosUri"));
+        }
+
+        if (policy.getUserinfoEncryptedResponseAlg() != null) {
+            rp.setUserinfoEncryptedResponseAlg(policy.getUserinfoEncryptedResponseAlg().enforcePolicy(rp.getUserinfoEncryptedResponseAlg(), "UserinfoEncryptedResponseAlg"));
+        }
+
+        if (policy.getUserinfoEncryptedResponseEnc() != null) {
+            rp.setUserinfoEncryptedResponseEnc(policy.getUserinfoEncryptedResponseEnc().enforcePolicy(rp.getUserinfoEncryptedResponseEnc(), "UserinfoEncryptedResponseEnc"));
+        }
+
+        if (policy.getUserinfoSignedResponseAlg() != null) {
+            rp.setUserinfoSignedResponseAlg(policy.getUserinfoSignedResponseAlg().enforcePolicy(rp.getUserinfoSignedResponseAlg(), "UserinfoSignedResponseAlg"));
+        }
+
         MetadataPolicy metadataPolicy = new MetadataPolicy();
-        metadataPolicy.setRpPolicy(policy);
+        metadataPolicy.setRelyingPartyPolicy(policy);
         entity.setMetadataPolicy(metadataPolicy);
         return entity;
     }

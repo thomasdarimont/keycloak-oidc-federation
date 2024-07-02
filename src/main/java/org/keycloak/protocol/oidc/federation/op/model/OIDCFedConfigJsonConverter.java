@@ -1,21 +1,17 @@
 package org.keycloak.protocol.oidc.federation.op.model;
 
+import jakarta.persistence.AttributeConverter;
+import org.keycloak.util.JsonSerialization;
+
 import java.io.IOException;
 
-import javax.persistence.AttributeConverter;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class OIDCFedConfigJsonConverter implements AttributeConverter<OIDCFedConfig, String> {
-
-    private static ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public String convertToDatabaseColumn(OIDCFedConfig config) {
         try {
-            return objectMapper.writeValueAsString(config);
-        } catch (JsonProcessingException e) {
+            return JsonSerialization.writeValueAsString(config);
+        } catch (IOException e) {
             throw new RuntimeException("Could not convert to Json", e);
         }
     }
@@ -23,7 +19,7 @@ public class OIDCFedConfigJsonConverter implements AttributeConverter<OIDCFedCon
     @Override
     public OIDCFedConfig convertToEntityAttribute(String json) {
         try {
-            return objectMapper.readValue(json, OIDCFedConfig.class);
+            return JsonSerialization.readValue(json, OIDCFedConfig.class);
         } catch (IOException e) {
             throw new RuntimeException("Could not convert from Json", e);
         }

@@ -16,6 +16,7 @@ package org.keycloak.protocol.oidc.federation.op.spi;
  * limitations under the License.
  */
 
+import com.google.auto.service.AutoService;
 import org.keycloak.Config;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
@@ -23,6 +24,7 @@ import org.keycloak.wellknown.WellKnownProvider;
 import org.keycloak.wellknown.WellKnownProviderFactory;
 
 
+@AutoService(WellKnownProviderFactory.class)
 public class OIDCFedOPWellKnownProviderFactory implements WellKnownProviderFactory {
 
     public static final String PROVIDER_ID = "openid-federation";

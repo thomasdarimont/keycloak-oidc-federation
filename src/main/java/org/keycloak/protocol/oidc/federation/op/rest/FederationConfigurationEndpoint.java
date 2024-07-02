@@ -1,18 +1,16 @@
 package org.keycloak.protocol.oidc.federation.op.rest;
 
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotAuthorizedException;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.jose.jws.JWSInputException;
@@ -35,21 +33,20 @@ public class FederationConfigurationEndpoint {
 
     private static final Logger logger = Logger.getLogger(FederationConfigurationEndpoint.class);
 
-    private KeycloakSession session;
-    private AdminPermissionEvaluator auth;
-    private OIDCFedConfigService configurationService;
+    private final KeycloakSession session;
+    private final AdminPermissionEvaluator auth;
+    private final OIDCFedConfigService configurationService;
 
     public FederationConfigurationEndpoint(KeycloakSession session) {
         this.session = session;
         this.auth = authenticateRealmAdminRequest();
         this.configurationService = new OIDCFedConfigService(session);
-        
+
     }
 
     private AdminPermissionEvaluator authenticateRealmAdminRequest() {
-        AppAuthManager authManager = new AppAuthManager();
         HttpHeaders headers = session.getContext().getRequestHeaders();
-        String tokenString = authManager.extractAuthorizationHeaderToken(headers);
+        String tokenString = AppAuthManager.extractAuthorizationHeaderToken(headers);
         if (tokenString == null) {
             throw new NotAuthorizedException("Bearer");
         }
@@ -65,11 +62,12 @@ public class FederationConfigurationEndpoint {
         RealmModel realm = realmManager.getRealmByName(realmName);
         if (realm == null) {
             throw new NotAuthorizedException("Unknown realm in token");
-        } 
-        if ( !realm.getId().equals( session.getContext().getRealm().getId())) {
+        }
+        if (!realm.getId().equals(session.getContext().getRealm().getId())) {
             throw new NotAuthorizedException("False realm in token");
-        } 
-        AuthenticationManager.AuthResult authResult = authManager.authenticateBearerToken(session, realm, session.getContext().getUri(), this.session.getContext().getConnection(), headers);
+        }
+
+        AuthenticationManager.AuthResult authResult = new AppAuthManager.BearerTokenAuthenticator(session).authenticate();
         if (authResult == null) {
             logger.debug("Token not valid");
             throw new NotAuthorizedException("Bearer");
@@ -78,7 +76,6 @@ public class FederationConfigurationEndpoint {
         ClientModel client = realm.getClientByClientId(token.getIssuedFor());
         if (client == null) {
             throw new NotFoundException("Could not find client for authorization");
-
         }
 
         AdminAuth adminAuth = new AdminAuth(realm, authResult.getToken(), authResult.getUser(), client);
@@ -101,15 +98,15 @@ public class FederationConfigurationEndpoint {
         RealmModel realmModel = session.getContext().getRealm();
         try {
             OIDCFedConfigEntity entity = configurationService.getEntity();
-            if(entity == null)
+            if (entity == null) {
                 entity = new OIDCFedConfigEntity(realmModel.getId(), configuration);
-            else
+            } else {
                 entity.setConfiguration(configuration);
+            }
             configurationService.saveEntity(entity);
             return Response.ok(configuration).build();
-        }
-        catch(Exception ex) {
-            return ErrorResponse.error("Failed to create configuration for the realm " + realmModel.getName(), Response.Status.NOT_FOUND);
+        } catch (Exception ex) {
+            return ErrorResponse.error("Failed to create configuration for the realm " + realmModel.getName(), Response.Status.NOT_FOUND).getResponse();
         }
     }
 
@@ -120,10 +117,10 @@ public class FederationConfigurationEndpoint {
             configurationService.deleteEntity();
         } catch (NotFoundException e) {
             e.printStackTrace();
-            return ErrorResponse.error(e.getMessage(), Response.Status.NOT_FOUND);
+            return ErrorResponse.error(e.getMessage(), Response.Status.NOT_FOUND).getResponse();
         }
         return Response.noContent().build();
     }
 
-    
+
 }

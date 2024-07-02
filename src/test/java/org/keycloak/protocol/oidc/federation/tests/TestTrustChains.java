@@ -16,8 +16,6 @@ import org.keycloak.protocol.oidc.federation.tests.scaffolding.configuration.Yam
 
 public class TestTrustChains extends TestBase {
 
-    
-    
     @Test
     public void test1() throws Exception {
         
