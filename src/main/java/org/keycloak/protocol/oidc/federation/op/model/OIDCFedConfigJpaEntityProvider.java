@@ -10,7 +10,7 @@ public class OIDCFedConfigJpaEntityProvider implements JpaEntityProvider {
     // List of your JPA entities.
     @Override
     public List<Class<?>> getEntities() {
-        return Collections.<Class<?>>singletonList(OIDCFedConfigEntity.class);
+        return Collections.singletonList(OIDCFedConfigEntity.class);
     }
 
     // This is used to return the location of the Liquibase changelog file.
