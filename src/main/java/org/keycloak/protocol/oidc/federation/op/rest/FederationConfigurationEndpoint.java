@@ -18,7 +18,6 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.protocol.oidc.federation.op.model.OIDCFedConfig;
-import org.keycloak.protocol.oidc.federation.op.model.OIDCFedConfigEntity;
 import org.keycloak.protocol.oidc.federation.op.model.OIDCFedConfigService;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.services.ErrorResponse;
@@ -28,6 +27,8 @@ import org.keycloak.services.managers.RealmManager;
 import org.keycloak.services.resources.admin.AdminAuth;
 import org.keycloak.services.resources.admin.permissions.AdminPermissionEvaluator;
 import org.keycloak.services.resources.admin.permissions.AdminPermissions;
+
+import ext.federation.entity.OIDCFedConfigEntity;
 
 public class FederationConfigurationEndpoint {
 
