@@ -6,6 +6,8 @@ import org.keycloak.connections.jpa.JpaConnectionProvider;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 
+import ext.federation.entity.OIDCFedConfigEntity;
+
 public class OIDCFedConfigService {
 
     private final RealmModel realm;

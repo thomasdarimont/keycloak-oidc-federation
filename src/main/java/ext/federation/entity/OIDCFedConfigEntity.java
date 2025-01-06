@@ -1,10 +1,13 @@
-package org.keycloak.protocol.oidc.federation.op.model;
+package ext.federation.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+import org.keycloak.protocol.oidc.federation.op.model.OIDCFedConfig;
+import org.keycloak.protocol.oidc.federation.op.model.OIDCFedConfigJsonConverter;
 
 @Entity
 @Table(name = "OIDC_FEDERATION_CONFIG")

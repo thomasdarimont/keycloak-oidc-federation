@@ -2,6 +2,8 @@ package org.keycloak.protocol.oidc.federation.op.model;
 
 import org.keycloak.connections.jpa.entityprovider.JpaEntityProvider;
 
+import ext.federation.entity.OIDCFedConfigEntity;
+
 import java.util.Collections;
 import java.util.List;
 

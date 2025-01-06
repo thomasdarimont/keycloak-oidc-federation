@@ -40,7 +40,6 @@ import org.keycloak.protocol.oidc.federation.common.beans.Metadata;
 import org.keycloak.protocol.oidc.federation.common.beans.OPMetadata;
 import org.keycloak.protocol.oidc.federation.common.exceptions.InternalServerErrorException;
 import org.keycloak.protocol.oidc.federation.common.helpers.FedUtils;
-import org.keycloak.protocol.oidc.federation.op.model.OIDCFedConfigEntity;
 import org.keycloak.protocol.oidc.federation.op.model.OIDCFedConfigService;
 import org.keycloak.protocol.oidc.federation.op.rest.FederationOPService;
 import org.keycloak.protocol.oidc.federation.op.rest.OIDCFederationResourceProvider;
@@ -51,6 +50,7 @@ import org.keycloak.services.resources.RealmsResource;
 import org.keycloak.urls.UrlType;
 import org.keycloak.util.JsonSerialization;
 
+import ext.federation.entity.OIDCFedConfigEntity;
 
 public class OIDCFedOPWellKnownProvider extends OIDCWellKnownProvider {
 
