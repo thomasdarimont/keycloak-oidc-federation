@@ -17,7 +17,6 @@ package org.keycloak.protocol.oidc.federation.op.spi;
  */
 
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,12 +66,13 @@ public class OIDCFedOPWellKnownProvider extends OIDCWellKnownProvider {
 
     @Override
     public Object getConfig() {
-        
-        OIDCFedConfigEntity conf =configurationService.getEntity();
+
+        OIDCFedConfigEntity conf = configurationService.getEntity();
         //realm without authority hints must not expose this web service
-        if (conf == null || conf.getConfiguration() == null || conf.getConfiguration().getAuthorityHints().isEmpty())
+        if (conf == null || conf.getConfiguration() == null || conf.getConfiguration().getAuthorityHints().isEmpty()) {
             throw new NotFoundException("This realm is not a OIDC Federation member");
-        
+        }
+
         UriInfo frontendUriInfo = session.getContext().getUri(UrlType.FRONTEND);
         UriInfo backendUriInfo = session.getContext().getUri(UrlType.BACKEND);
 
@@ -91,14 +91,14 @@ public class OIDCFedOPWellKnownProvider extends OIDCWellKnownProvider {
         //additional federation-specific configuration
         if (!"automatic".equals(conf.getConfiguration().getRegistrationType()))
             config.setFederationRegistrationEndpoint(backendUriBuilder.clone().path(OIDCFederationResourceProviderFactory.ID)
-                .path(OIDCFederationResourceProvider.class, "getFederationOPService")
-                .path(FederationOPService.class, "getFederationRegistration").build(realm.getName()).toString());
+                    .path(OIDCFederationResourceProvider.class, "getFederationOPService")
+                    .path(FederationOPService.class, "getFederationRegistration").build(realm.getName()).toString());
         Map<String, List<String>> clientRegMap = new HashMap<>();
         clientRegMap.put("ar", Collections.singletonList("request_object"));
         config.setClientRegistrationAuthnMethodsSupported(clientRegMap);
         config.setClientRegistrationTypesSupported(
-            "both".equals(conf.getConfiguration().getRegistrationType()) ? CLIENT_REGISTRATION_TYPES_SUPPORTED
-                : Collections.singletonList(conf.getConfiguration().getRegistrationType()));
+                "both".equals(conf.getConfiguration().getRegistrationType()) ? CLIENT_REGISTRATION_TYPES_SUPPORTED
+                        : Collections.singletonList(conf.getConfiguration().getRegistrationType()));
 
 
         Metadata metadata = new Metadata();
